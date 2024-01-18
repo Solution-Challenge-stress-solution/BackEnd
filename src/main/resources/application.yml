@@ -12,3 +12,11 @@ spring:
       hibernate:
         format_sql: true
         dialect: org.hibernate.dialect.MySQL8Dialect
+  security:
+    jwt:
+      token:
+        secret-key: itsepguyitsepguyitsepgyitsitsits
+        access-token-expiration-seconds: 3600
+        refresh-token-expiration-seconds: 604800
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
