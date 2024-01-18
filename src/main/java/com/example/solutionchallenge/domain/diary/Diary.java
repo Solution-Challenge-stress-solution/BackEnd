@@ -1,7 +1,10 @@
 package com.example.solutionchallenge.domain.diary;
 
+import com.example.solutionchallenge.domain.BaseTimeEntity;
 import com.example.solutionchallenge.domain.users.Users;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -15,7 +18,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @Entity
-public class Diary {
+public class Diary extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,6 +28,8 @@ public class Diary {
     private String audioFile;
     private String stressLevel;
     private String recommendedActivity;
+
+    @Enumerated(EnumType.STRING)
     private DiaryStatus status;
 
     @ManyToOne(fetch = FetchType.LAZY)
