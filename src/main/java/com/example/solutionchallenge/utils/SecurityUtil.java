@@ -9,7 +9,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 public class SecurityUtil {
     private SecurityUtil() {}
 
-    public static long getCurrentUserId() {
+    public static String getCurrentUserId() {
 
         final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
@@ -17,9 +17,9 @@ public class SecurityUtil {
             throw new ApiException(ErrorCode.UNAUTHORIZED);
         }
 
-        long userId;
+        String userId;
         if (authentication.getPrincipal() instanceof UserPrincipal userPrincipal) {
-            userId = userPrincipal.getId();
+            userId = userPrincipal.getName();
         } else {
             throw new ApiException(ErrorCode.BAD_REQUEST);
         }

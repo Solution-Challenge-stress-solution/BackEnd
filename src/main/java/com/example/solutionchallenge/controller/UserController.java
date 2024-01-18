@@ -18,8 +18,8 @@ public class UserController {
     // 유저정보 조회 API
     @GetMapping("/info")
     public UserDto info() {
-        final long userId = SecurityUtil.getCurrentUserId();
-        UserDto userDto = userService.findById(userId);
+        final String userId = SecurityUtil.getCurrentUserId();
+        UserDto userDto = userService.findById(Long.valueOf(userId));
         if(userDto == null) {
             throw new ApiException(ErrorCode.NOT_EXIST_USER);
         }
