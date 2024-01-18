@@ -38,6 +38,3 @@ out/
 
 ### firebase ###
 src/main/resources/loginsecret.json
-
-###GCP###
-src/main/resources/application.yml
