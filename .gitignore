@@ -37,11 +37,7 @@ out/
 .vscode/
 
 ### firebase ###
-<<<<<<< HEAD
-src/main/resources/loginsecret.json
-=======
 src/main/resources/loginsecret.json
 
 ###GCP###
 src/main/resources/application.yml
->>>>>>> parent of dce3d61 (feat: HealthCheck 기능 추가)
