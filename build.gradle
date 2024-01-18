@@ -39,8 +39,6 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
     implementation 'com.mysql:mysql-connector-j'
     implementation 'org.hibernate:hibernate-entitymanager:5.4.27.Final'
-
-    //firebase
     implementation 'com.google.firebase:firebase-admin:9.2.0'
 
     //JWT
