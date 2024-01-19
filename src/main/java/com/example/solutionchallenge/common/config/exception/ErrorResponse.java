@@ -1,14 +1,23 @@
 package com.example.solutionchallenge.common.config.exception;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
 @Getter
+@AllArgsConstructor
 public class ErrorResponse {
-
+    private static final ObjectMapper objectMapper = new ObjectMapper();
+    private String errMsg;
     private String message;
     private int code;
     private int status;
+
+    public ErrorResponse(String errMsg) {
+        this.errMsg = errMsg;
+    }
 
     @Builder
     public ErrorResponse(String message, int code, int status) {
@@ -25,4 +34,7 @@ public class ErrorResponse {
                 .build();
     }
 
+    public String convertToJson() throws JsonProcessingException {
+        return objectMapper.writeValueAsString(this);
+    }
 }

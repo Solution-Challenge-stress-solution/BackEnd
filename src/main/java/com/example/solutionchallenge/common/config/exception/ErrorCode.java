@@ -2,33 +2,54 @@ package com.example.solutionchallenge.common.config.exception;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 
-@Getter
-@RequiredArgsConstructor
 public enum ErrorCode {
-
-    POSTS_EMPTY_TITLE(400, "제목을 입력하세요.", 417),
-    POSTS_EMPTY_DEPARTURE(400, "출발지를 입력하세요", 418),
-    POSTS_EMPTY_DESTINATION(400, "목적지를 입력하세요", 419),
-    POSTS_EMPTY_DEPARTURE_TIME(400, "출발시각을 입력하세요", 420),
-    POSTS_ALREADY_FINISH(400, "이미 마감된 공고입니다.", 421),
-
-    PARTICIPATION_DETAILS_ALREADY_JOIN(400, "이미 참가 신청이 되었습니다.", 422),
-    PARTICIPATION_DETAILS_ALREADY_CANCEL(400, "이미 참가 취소가 되었습니다.", 423),
-
-    TOTAL_DETAIL_EMPTY_DISTANCE(400, "최종 거리를 입력하세요.", 424),
-    TOTAL_DETAIL_EMPTY_PAYMENT(400, "최종 금액을 입력하세요.", 425),
-
     UNKNOWN_ERROR(500, "토큰이 존재하지 않습니다.", 1001),
     WRONG_TYPE_TOKEN(500, "변조된 토큰입니다.", 1002),
     EXPIRED_TOKEN(500, "만료된 토큰입니다.", 1003),
     UNSUPPORTED_TOKEN(500, "변조된 토큰입니다.", 1004),
     ACCESS_DENIED(500, "권한이 없습니다.", 1005),
-    NO_INFO(500, "토큰에 해당하는 정보가 없습니다.", 1006);
-
+    NO_INFO(500, "토큰에 해당하는 정보가 없습니다.", 1006),
+    UNAUTHORIZED("인증되지 않은 요청입니다.", HttpStatus.UNAUTHORIZED),
+    INVALID_ACCESS_TOKEN("유효하지 않은 액세스 토큰입니다.", HttpStatus.UNAUTHORIZED),
+    INVALID_REFRESH_TOKEN("유효하지 않은 리프레시 토큰입니다.", HttpStatus.UNAUTHORIZED),
+    BAD_REQUEST("잘못된 요청입니다.", HttpStatus.BAD_REQUEST),
+    NOT_EXIST_USER("존재하지 않는 유저입니다.", HttpStatus.UNAUTHORIZED);
 
     private final int status;
     private final String message;
+    private final HttpStatus httpStatus;
     private final int code;
 
+    ErrorCode(int status, String message, int code) {
+        this.status = status;
+        this.message = message;
+        this.code = code;
+        this.httpStatus = null;
+    }
+
+    ErrorCode(String message, HttpStatus httpStatus) {
+        this.message = message;
+        this.httpStatus = httpStatus;
+        this.status = httpStatus.value();
+        this.code = -1;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public HttpStatus getHttpStatus() {
+        return httpStatus;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public int getCode() {
+        return code;
+    }
 }
+
