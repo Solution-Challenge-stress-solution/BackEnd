@@ -37,6 +37,8 @@ public class Users extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private Status status;
 
+    private String firebaseUid;
+
     @OneToMany(mappedBy = "users", cascade = CascadeType.ALL)
     private List<Diary> diaryList = new ArrayList<>();
 
@@ -50,4 +52,37 @@ public class Users extends BaseTimeEntity {
         this.age = age;
         this.status = status;
     }
+
+    public void changeName(String name) {
+        this.name = name;
+    }
+
+    public void changeEmail(String email) {
+        this.email = email;
+    }
+
+    public void changeProfileImage(String profileImage) {
+        this.profileImage = profileImage;
+    }
+
+    public void changeGender(Gender gender) {
+        this.gender = gender;
+    }
+
+    public void changeAge(int age) {
+        this.age = age;
+    }
+
+    public void changeStatus(Status status) {
+        this.status = status;
+    }
+
+    public String getFirebaseUid() {
+        return firebaseUid;
+    }
+
+    public void setFirebaseUid(String firebaseUid) {
+        this.firebaseUid = firebaseUid;
+    }
+
 }
