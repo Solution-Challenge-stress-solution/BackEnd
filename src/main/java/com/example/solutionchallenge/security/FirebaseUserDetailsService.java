@@ -27,15 +27,17 @@ public class FirebaseUserDetailsService implements UserDetailsService {
         this.firebaseAuth = firebaseAuth;
     }
 
+    //Firebase의 UID를 기반으로 사용자 정보를 로드하는 메소드
+    //사용자 정보가 있는 경우 해당정보를 업데이트하고, 없는 경우는 새로운 사용자를 생성하는 로직을 구현하고자 함
     @Override
     public UserDetails loadUserByUsername(String uid) throws UsernameNotFoundException {
-        //Firebase 토큰에서 사용자 정보를 얻어옴
+        //FirebaseAuth 통해 Firebase와 연동, verifyIdToken 통해 Firebase토큰 검증
         Map<String, Object> claims = null;
         try {
             FirebaseToken firebaseToken = firebaseAuth.verifyIdToken(uid);
             claims = firebaseToken.getClaims();
         } catch (FirebaseAuthException e) {
-            throw new UsernameNotFoundException("Failed to update user with UID: " + uid);
+            throw new UsernameNotFoundException("Failed to verify Firebase token for UID: " + uid);
         }
 
         //UID를 기반으로 사용자 정보 조회
@@ -66,6 +68,7 @@ public class FirebaseUserDetailsService implements UserDetailsService {
 
             usersRepository.save(user);
 
+            //사용자 인증 정보 생성
             //조회된 사용자 정보를 기반으로 FirebaseUserDetails 객체를 생성하여 반환
             return new FirebaseUserDetails(
                     user.getFirebaseUid(),
@@ -104,6 +107,7 @@ public class FirebaseUserDetailsService implements UserDetailsService {
 
             usersRepository.save(newUser);
 
+            //사용자 인증 정보 생성
             //새로 생성된 사용자 정보를 기반으로 FirebaseUserDetails 객체를 생성하여 반환
             return new FirebaseUserDetails(
                     newUser.getFirebaseUid(),

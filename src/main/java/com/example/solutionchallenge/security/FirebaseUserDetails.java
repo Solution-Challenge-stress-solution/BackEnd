@@ -23,8 +23,7 @@ public class FirebaseUserDetails implements UserDetails {
     // Users 엔티티와의 연관
     private Users user;
 
-    // Constructor
-
+    //생성자
     public FirebaseUserDetails(String uid, String email, String name, String profileImage,
                                Gender gender, int age, Status status, Users user) {
         this.uid = uid;
@@ -37,7 +36,6 @@ public class FirebaseUserDetails implements UserDetails {
         this.user = user;
     }
 
-    // Methods
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
