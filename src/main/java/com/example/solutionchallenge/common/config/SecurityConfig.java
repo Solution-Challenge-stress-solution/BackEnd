@@ -3,6 +3,8 @@ package com.example.solutionchallenge.common.config;
 import com.example.solutionchallenge.common.config.exception.ExceptionHandlerFilter;
 import com.example.solutionchallenge.enums.UserRole;
 import com.example.solutionchallenge.filter.JwtFilter;
+import com.example.solutionchallenge.security.FirebaseTokenFilter;
+import com.example.solutionchallenge.security.FirebaseUserDetailsService;
 import com.example.solutionchallenge.service.JwtTokenService;
 import com.example.solutionchallenge.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +25,8 @@ import static org.springframework.security.config.Customizer.withDefaults;
 public class SecurityConfig {
     private final JwtTokenService jwtTokenService;
     private final UserService userService;
+    private final FirebaseTokenFilter firebaseTokenFilter;
+    private final FirebaseUserDetailsService firebaseUserDetailsService;
 
     @Bean
     public AuthenticationManager authenticationManager(
@@ -41,8 +45,10 @@ public class SecurityConfig {
                 .sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .formLogin(httpSecurityFormLoginConfigurer -> httpSecurityFormLoginConfigurer.disable()) // 로그인 폼 미사용
                 .httpBasic(httpSecurityHttpBasicConfigurer -> httpSecurityHttpBasicConfigurer.disable()) // http basic 미사용
+                .addFilterBefore(firebaseTokenFilter, UsernamePasswordAuthenticationFilter.class) //FirebaseTokenFilter 추가
                 .addFilterBefore(new JwtFilter(jwtTokenService, userService), UsernamePasswordAuthenticationFilter.class) // JWT Filter 추가
                 .addFilterBefore(new ExceptionHandlerFilter(), JwtFilter.class) // Security Filter 에서 CustomException 사용하기 위해 추가
+                .userDetailsService(firebaseUserDetailsService) //FirebaseUserDetailsSErvice 설정
                 .build();
     }
 
@@ -50,7 +56,7 @@ public class SecurityConfig {
     public WebSecurityCustomizer webSecurityCustomizer(){
         // 아래 url은 filter 에서 제외
         return web ->
-            web.ignoring()
-                    .requestMatchers("/login/**", "/token/refresh");
+                web.ignoring()
+                        .requestMatchers("/login/**", "/token/refresh");
     }
 }
