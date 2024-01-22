@@ -1,9 +1,18 @@
+server:
+  port: 8080
+
 spring:
+  profiles:
+    default: dev
+
+  redis:
+
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://34.64.189.204:3306/gdscDB?serverTimezone=Asia/Seoul
     username: root
     password: gdsc
+
   jpa:
     hibernate:
       ddl-auto: create
@@ -12,11 +21,13 @@ spring:
       hibernate:
         format_sql: true
         dialect: org.hibernate.dialect.MySQL8Dialect
+
   security:
     jwt:
       token:
         secret-key: itsepguyitsepguyitsepgyitsitsits
         access-token-expiration-seconds: 3600
         refresh-token-expiration-seconds: 604800
+
 mybatis:
   mapper-locations: classpath:mapper/*.xml
