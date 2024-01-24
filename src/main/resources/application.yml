@@ -31,3 +31,11 @@ spring:
 
 mybatis:
   mapper-locations: classpath:mapper/*.xml
+
+grpc:
+  client:
+    test:
+      address: static://0.0.0.0:50010
+      enableKeepAlive: true
+      keepAliveWithoutCalls: true
+      negotiationType: plaintext
