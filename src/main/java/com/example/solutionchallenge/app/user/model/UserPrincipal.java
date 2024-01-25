@@ -1,7 +1,7 @@
 package com.example.solutionchallenge.app.user.model;
 
 import com.example.solutionchallenge.app.user.dto.UserDto;
-import com.example.solutionchallenge.app.user.entity.UserRole;
+import com.example.solutionchallenge.app.user.domain.UserRole;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;

@@ -2,12 +2,11 @@ package com.example.solutionchallenge.app.diary.dto.request;
 
 import com.example.solutionchallenge.app.diary.domain.Diary;
 import com.example.solutionchallenge.app.diary.domain.DiaryStatus;
-import com.example.solutionchallenge.app.user.entity.Users;
+import com.example.solutionchallenge.app.user.domain.Users;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.web.multipart.MultipartFile;
 
 @Schema(description = "일기 저장 요청")
 @Getter
