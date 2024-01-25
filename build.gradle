@@ -68,6 +68,16 @@ dependencies {
     //redis
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 
+    // Google Speech To Text
+    implementation(platform("com.google.cloud:libraries-bom:26.1.4"))
+    implementation("com.google.cloud:google-cloud-speech")
+    implementation("com.google.protobuf:protobuf-java:3.21.12")
+    implementation("com.fasterxml.jackson.core:jackson-databind")
+
+    // Google Storage
+    implementation group: 'org.springframework.cloud', name: 'spring-cloud-gcp-starter', version: '1.2.5.RELEASE'
+    implementation group: 'org.springframework.cloud', name: 'spring-cloud-gcp-storage', version: '1.2.5.RELEASE'
+
     //gRPC
     implementation "com.google.protobuf:protobuf-java-util:3.25.1"
     implementation 'com.google.protobuf:protobuf-java:3.25.1'
@@ -96,6 +106,7 @@ protobuf {
             grpc{}
         }
     }
+
 }
 
 tasks.named('test') {
