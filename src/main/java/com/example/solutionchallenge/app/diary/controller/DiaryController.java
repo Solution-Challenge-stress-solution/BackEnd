@@ -3,7 +3,7 @@ package com.example.solutionchallenge.app.diary.controller;
 <<<<<<< HEAD:src/main/java/com/example/solutionchallenge/controller/DiaryController.java
 import com.example.solutionchallenge.common.config.response.ResponseDto;
 import com.example.solutionchallenge.common.config.response.ResponseUtil;
-import com.example.solutionchallenge.dto.diary.DiaryResponseDto;
+import com.example.solutionchallenge.app.diary.dto.response.DiaryResponseDto;
 import com.example.solutionchallenge.dto.diary.DiarySaveRequestDto;
 import com.example.solutionchallenge.service.DiaryService;
 import com.example.solutionchallenge.utils.SecurityUtil;

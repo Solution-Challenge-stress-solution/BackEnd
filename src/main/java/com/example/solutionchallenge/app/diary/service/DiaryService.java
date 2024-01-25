@@ -3,7 +3,7 @@ package com.example.solutionchallenge.app.diary.service;
 <<<<<<< HEAD:src/main/java/com/example/solutionchallenge/service/DiaryService.java
 import com.example.solutionchallenge.domain.diary.Diary;
 import com.example.solutionchallenge.domain.users.Users;
-import com.example.solutionchallenge.dto.diary.DiaryResponseDto;
+import com.example.solutionchallenge.app.diary.dto.response.DiaryResponseDto;
 import com.example.solutionchallenge.dto.diary.DiarySaveRequestDto;
 import com.example.solutionchallenge.repository.DiaryRepository;
 import com.example.solutionchallenge.repository.UsersRepository;
