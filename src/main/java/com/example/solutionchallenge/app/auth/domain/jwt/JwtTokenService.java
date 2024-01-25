@@ -8,8 +8,10 @@ import io.jsonwebtoken.io.Encoders;
 import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
+import org.checkerframework.checker.units.qual.C;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.nio.charset.StandardCharsets;
@@ -22,7 +24,7 @@ public class JwtTokenService implements InitializingBean {
     private long accessTokenExpirationInSeconds;
     private long refreshTokenExpirationInSeconds;
     private final String secretKey;
-    private static Key key;
+    private Key key;
 
     public JwtTokenService(
             @Value("${spring.security.jwt.token.access-token-expiration-seconds}") long accessTokenExpirationInSeconds,
@@ -35,12 +37,15 @@ public class JwtTokenService implements InitializingBean {
     }
 
     // 빈 주입받은 후 실행되는 메소드
+
     @Override
     public void afterPropertiesSet() {
-        this.key = getKeyFromBase64EncodedKey(encodeBase64SecretKey(secretKey));
+        System.out.println("Secret key: " + secretKey);
+        String base64EncodedSecretKey = encodeBase64SecretKey(secretKey);
+        System.out.println("Base64 encoded secret key: " + base64EncodedSecretKey);
+        this.key = getKeyFromBase64EncodedKey(base64EncodedSecretKey);
+        System.out.println("Key: " + key);
     }
-
-
     public String createAccessToken(String payload){
         return createToken(payload, accessTokenExpirationInSeconds);
     }

@@ -1,4 +1,4 @@
-package com.example.solutionchallenge.app.user.entity;
+package com.example.solutionchallenge.app.user.domain;
 
 public enum UserRole {
     USER("user"),

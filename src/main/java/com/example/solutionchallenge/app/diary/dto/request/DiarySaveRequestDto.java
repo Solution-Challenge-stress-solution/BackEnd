@@ -1,8 +1,8 @@
 package com.example.solutionchallenge.app.diary.dto.request;
 
-import com.example.solutionchallenge.app.diary.entity.Diary;
-import com.example.solutionchallenge.app.diary.entity.DiaryStatus;
-import com.example.solutionchallenge.app.user.entity.Users;
+import com.example.solutionchallenge.app.diary.domain.Diary;
+import com.example.solutionchallenge.app.diary.domain.DiaryStatus;
+import com.example.solutionchallenge.app.user.domain.Users;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

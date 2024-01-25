@@ -49,7 +49,6 @@ dependencies {
 
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
-    implementation 'org.hibernate:hibernate-entitymanager:5.4.27.Final'
 
     //mysql
     implementation 'com.mysql:mysql-connector-j'
@@ -83,6 +82,8 @@ dependencies {
     implementation 'io.grpc:grpc-netty-shaded:1.34.1'
     implementation 'io.grpc:grpc-protobuf:1.34.1'
     implementation 'io.grpc:grpc-stub:1.34.1'
+
+    implementation 'com.h2database:h2'
 }
 
 //gRPC
@@ -109,4 +110,3 @@ protobuf {
 tasks.named('test') {
     useJUnitPlatform()
 }
-
