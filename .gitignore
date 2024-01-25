@@ -38,3 +38,6 @@ out/
 
 ### firebase ###
 src/main/resources/loginsecret.json
+
+### google storage ###
+src/main/resources/strecording-storage-access
