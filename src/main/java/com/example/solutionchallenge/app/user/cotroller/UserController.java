@@ -17,13 +17,13 @@ public class UserController {
     private final UserService userService;
 
     // 유저정보 조회 API
-    @GetMapping("/info")
-    public UserDto info() {
-        final String userId = SecurityUtil.getCurrentUserId();
-        UserDto userDto = userService.findById(Long.valueOf(userId));
-        if(userDto == null) {
-            throw new ApiException(ErrorCode.NOT_EXIST_USER);
-        }
-        return userDto;
-    }
+//    @GetMapping("/info")
+//    public UserDto info() {
+//        final String userId = SecurityUtil.getCurrentUserId();
+//        UserDto userDto = userService.findById(Long.valueOf(userId));
+//        if(userDto == null) {
+//            throw new ApiException(ErrorCode.NOT_EXIST_USER);
+//        }
+//        return userDto;
+//    }
 }

@@ -2,7 +2,7 @@ package com.example.solutionchallenge.app.user.entity;
 
 
 import com.example.solutionchallenge.app.common.entity.BaseTimeEntity;
-import com.example.solutionchallenge.app.diary.domain.Diary;
+import com.example.solutionchallenge.app.diary.entity.Diary;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -44,10 +44,11 @@ public class Users extends BaseTimeEntity {
 
     @Builder
     public Users(String name, String email, String profileImage, Gender gender, int age,
-                 Status status) {
+                 Status status, String firebaseUid) {
         this.name = name;
         this.email = email;
         this.profileImage = profileImage;
+        this.firebaseUid = firebaseUid;
         this.gender = gender;
         this.age = age;
         this.status = status;

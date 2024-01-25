@@ -1,4 +1,4 @@
-package com.example.solutionchallenge.app.diary.domain;
+package com.example.solutionchallenge.app.diary.entity;
 
 import com.example.solutionchallenge.app.common.entity.BaseTimeEntity;
 import com.example.solutionchallenge.app.user.entity.Users;
@@ -11,7 +11,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
