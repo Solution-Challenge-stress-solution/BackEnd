@@ -40,4 +40,4 @@ out/
 src/main/resources/loginsecret.json
 
 ### google storage ###
-src/main/resources/strecording-storage-access
+src/main/resources/strecording-storage-access.json
