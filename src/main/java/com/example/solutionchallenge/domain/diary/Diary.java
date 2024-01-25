@@ -25,7 +25,7 @@ public class Diary extends BaseTimeEntity {
     private Long id;
 
     private String content;
-    private String audioFile;
+    private String audioFileUrl;
     private String stressLevel;
     private String recommendedActivity;
 
@@ -33,7 +33,7 @@ public class Diary extends BaseTimeEntity {
     private DiaryStatus status;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "usersId")
+    @JoinColumn(name = "user_id")
     private Users users;
 
     public void setUsers(Users users) {
@@ -42,10 +42,10 @@ public class Diary extends BaseTimeEntity {
     }
 
     @Builder
-    public Diary(String content, String audioFile, String stressLevel, String recommendedActivity,
+    public Diary(String content, String audioFileUrl, String stressLevel, String recommendedActivity,
                  DiaryStatus status, Users users) {
         this.content = content;
-        this.audioFile = audioFile;
+        this.audioFileUrl = audioFileUrl;
         this.stressLevel = stressLevel;
         this.recommendedActivity = recommendedActivity;
         this.status = status;

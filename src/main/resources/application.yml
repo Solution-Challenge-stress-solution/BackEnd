@@ -18,5 +18,12 @@ spring:
         secret-key: itsepguyitsepguyitsepgyitsitsits
         access-token-expiration-seconds: 3600
         refresh-token-expiration-seconds: 604800
+  cloud:
+    gcp:
+      storage:
+        credentials:
+          location: classpath:storage-access.json
+        project-id: eng-drake-410407
+        bucket: gdsc-bucket
 mybatis:
   mapper-locations: classpath:mapper/*.xml
