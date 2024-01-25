@@ -1,6 +1,6 @@
-package com.example.solutionchallenge.controller;
+package com.example.solutionchallenge.app.stt.controller;
 
-import com.example.solutionchallenge.service.SpeechToTextService;
+import com.example.solutionchallenge.app.stt.service.SpeechToTextService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;

@@ -1,7 +1,6 @@
-package com.example.solutionchallenge.dto.diary;
+package com.example.solutionchallenge.app.diary.dto.response;
 
-import com.example.solutionchallenge.domain.diary.Diary;
-import io.swagger.v3.oas.annotations.media.Schema;
+import com.example.solutionchallenge.app.diary.domain.Diary;
 import lombok.Builder;
 import lombok.Getter;
 

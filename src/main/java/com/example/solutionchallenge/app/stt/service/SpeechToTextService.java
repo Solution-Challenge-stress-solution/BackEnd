@@ -1,4 +1,4 @@
-package com.example.solutionchallenge.service;
+package com.example.solutionchallenge.app.stt.service;
 
 import com.google.cloud.speech.v1.*;
 import com.google.protobuf.ByteString;
