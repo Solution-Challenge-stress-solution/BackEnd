@@ -1,6 +1,6 @@
 package com.example.solutionchallenge.app.diary.service;
 
-import com.example.solutionchallenge.app.diary.domain.Diary;
+import com.example.solutionchallenge.app.diary.entity.Diary;
 import com.example.solutionchallenge.app.diary.dto.request.DiarySaveRequestDto;
 import com.example.solutionchallenge.app.diary.dto.response.DiaryResponseDto;
 import com.example.solutionchallenge.app.diary.repository.DiaryRepository;
@@ -26,21 +26,21 @@ import org.springframework.web.multipart.MultipartFile;
 @Service
 public class DiaryService {
 
+    private final DiaryRepository diaryRepository;
+    private final UsersRepository usersRepository;
+
     @Value("${spring.cloud.gcp.storage.bucket}")
     private String bucketName;
 
     @Value("${spring.cloud.gcp.storage.project-id}")
     private String projectId;
 
-    private final DiaryRepository diaryRepository;
-    private final UsersRepository usersRepository;
-
     public Long save(MultipartFile audioFile, DiarySaveRequestDto requestDto, Long userId) {
         Users users = usersRepository.findById(userId).orElseThrow(
                 () -> new IllegalArgumentException("해당 유저가 없습니다. id=" + userId));
 
         try {
-            ClassPathResource resource = new ClassPathResource("storage-access.json");
+            ClassPathResource resource = new ClassPathResource("strecording-storage-access.json");
             GoogleCredentials credentials = GoogleCredentials.fromStream(resource.getInputStream());
             Storage storage = StorageOptions.newBuilder().setProjectId(projectId).setCredentials(credentials)
                     .build().getService();

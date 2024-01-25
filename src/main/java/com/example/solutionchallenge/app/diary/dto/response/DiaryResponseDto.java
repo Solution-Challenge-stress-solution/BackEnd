@@ -1,6 +1,6 @@
 package com.example.solutionchallenge.app.diary.dto.response;
 
-import com.example.solutionchallenge.app.diary.domain.Diary;
+import com.example.solutionchallenge.app.diary.entity.Diary;
 import lombok.Builder;
 import lombok.Getter;
 

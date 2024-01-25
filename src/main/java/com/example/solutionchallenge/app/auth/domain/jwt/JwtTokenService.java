@@ -25,9 +25,9 @@ public class JwtTokenService implements InitializingBean {
     private static Key key;
 
     public JwtTokenService(
-            @Value("${jwt.access.token.expiration.seconds}") long accessTokenExpirationInSeconds,
-            @Value("${jwt.refresh.token.expiration.seconds}") long refreshTokenExpirationInSeconds,
-            @Value("${jwt.token.secret-key}") String secretKey
+            @Value("${spring.security.jwt.token.access-token-expiration-seconds}") long accessTokenExpirationInSeconds,
+            @Value("${spring.security.jwt.token.refresh-token-expiration-seconds}") long refreshTokenExpirationInSeconds,
+            @Value("${spring.security.jwt.token.secret-key}") String secretKey
     ) {
         this.accessTokenExpirationInSeconds = accessTokenExpirationInSeconds * 1000;
         this.refreshTokenExpirationInSeconds = refreshTokenExpirationInSeconds * 1000;

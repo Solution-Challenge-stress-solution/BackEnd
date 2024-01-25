@@ -5,9 +5,10 @@ import com.example.solutionchallenge.app.user.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-@RequiredArgsConstructor
 @Service
+@RequiredArgsConstructor
 public class UserService {
+
     private final UserMapper userMapper;
     public void save(UserDto userDto) {
         userMapper.save(userDto);
