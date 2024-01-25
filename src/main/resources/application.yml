@@ -1,9 +1,18 @@
+server:
+  port: 8080
+
 spring:
+  profiles:
+    default: dev
+
+  redis:
+
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://34.64.189.204:3306/gdscDB?serverTimezone=Asia/Seoul
     username: root
     password: gdsc
+
   jpa:
     hibernate:
       ddl-auto: create
@@ -12,12 +21,14 @@ spring:
       hibernate:
         format_sql: true
         dialect: org.hibernate.dialect.MySQL8Dialect
+
   security:
     jwt:
       token:
         secret-key: itsepguyitsepguyitsepgyitsitsits
         access-token-expiration-seconds: 3600
         refresh-token-expiration-seconds: 604800
+<<<<<<< HEAD
   cloud:
     gcp:
       storage:
@@ -25,5 +36,16 @@ spring:
           location: classpath:storage-access.json
         project-id: eng-drake-410407
         bucket: gdsc-bucket
+=======
+
+>>>>>>> 5d4dccaf6d967dcd1464fb832d41934402bc84aa
 mybatis:
   mapper-locations: classpath:mapper/*.xml
+
+grpc:
+  client:
+    test:
+      address: static://0.0.0.0:50010
+      enableKeepAlive: true
+      keepAliveWithoutCalls: true
+      negotiationType: plaintext
