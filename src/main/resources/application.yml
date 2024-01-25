@@ -33,7 +33,7 @@ spring:
     gcp:
       storage:
         credentials:
-          location: classpath:storage-access.json
+          location: classpath:strecording-storage-access.json
         project-id: eng-drake-410407
         bucket: gdsc-bucket
 
