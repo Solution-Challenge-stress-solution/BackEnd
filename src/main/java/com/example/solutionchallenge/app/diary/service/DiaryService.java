@@ -1,22 +1,17 @@
 package com.example.solutionchallenge.app.diary.service;
 
-<<<<<<< HEAD:src/main/java/com/example/solutionchallenge/service/DiaryService.java
-import com.example.solutionchallenge.domain.diary.Diary;
-import com.example.solutionchallenge.domain.users.Users;
+import com.example.solutionchallenge.app.diary.domain.Diary;
 import com.example.solutionchallenge.app.diary.dto.response.DiaryResponseDto;
-import com.example.solutionchallenge.dto.diary.DiarySaveRequestDto;
-import com.example.solutionchallenge.repository.DiaryRepository;
-import com.example.solutionchallenge.repository.UsersRepository;
+import com.example.solutionchallenge.app.user.entity.Users;
+import com.example.solutionchallenge.app.user.repository.UsersRepository;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.storage.BlobInfo;
 import com.google.cloud.storage.Storage;
 import com.google.cloud.storage.StorageOptions;
 import java.io.IOException;
 import java.util.UUID;
-=======
 import com.example.solutionchallenge.app.diary.dto.request.DiarySaveRequestDto;
 import com.example.solutionchallenge.app.diary.repository.DiaryRepository;
->>>>>>> 5d4dccaf6d967dcd1464fb832d41934402bc84aa:src/main/java/com/example/solutionchallenge/app/diary/service/DiaryService.java
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;

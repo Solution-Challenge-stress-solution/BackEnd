@@ -1,18 +1,11 @@
 package com.example.solutionchallenge.app.diary.controller;
 
-<<<<<<< HEAD:src/main/java/com/example/solutionchallenge/controller/DiaryController.java
-import com.example.solutionchallenge.common.config.response.ResponseDto;
-import com.example.solutionchallenge.common.config.response.ResponseUtil;
 import com.example.solutionchallenge.app.diary.dto.response.DiaryResponseDto;
-import com.example.solutionchallenge.dto.diary.DiarySaveRequestDto;
-import com.example.solutionchallenge.service.DiaryService;
 import com.example.solutionchallenge.utils.SecurityUtil;
-=======
 import com.example.solutionchallenge.app.common.dto.response.ResponseDto;
 import com.example.solutionchallenge.app.common.dto.response.ResponseUtil;
 import com.example.solutionchallenge.app.diary.dto.request.DiarySaveRequestDto;
 import com.example.solutionchallenge.app.diary.service.DiaryService;
->>>>>>> 5d4dccaf6d967dcd1464fb832d41934402bc84aa:src/main/java/com/example/solutionchallenge/app/diary/controller/DiaryController.java
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;

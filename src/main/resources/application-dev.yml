@@ -5,7 +5,22 @@ spring:
   config:
     activate:
       on-profile: dev
-
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driverClassName: org.h2.Driver
+    username: sa
+    password:
   jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
       ddl-auto: update
+  h2:
+    console:
+      enabled: true
+
+  security:
+    jwt:
+      token:
+        secret-key: bObCca-W3tjwK0BhCnZJQlKml4ePRf5lIzlRcpZe_Bo
+        access-token-expiration-seconds: 3600
+        refresh-token-expiration-seconds: 604800
