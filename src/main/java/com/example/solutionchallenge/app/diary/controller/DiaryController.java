@@ -1,16 +1,10 @@
 package com.example.solutionchallenge.app.diary.controller;
 
-import com.example.solutionchallenge.app.diary.domain.Diary;
 import com.example.solutionchallenge.app.diary.dto.response.DiaryResponseDto;
-import com.example.solutionchallenge.app.user.domain.Users;
-import com.example.solutionchallenge.app.user.service.UserService;
-import com.example.solutionchallenge.utils.SecurityUtil;
 import com.example.solutionchallenge.app.common.dto.response.ResponseDto;
 import com.example.solutionchallenge.app.common.dto.response.ResponseUtil;
 import com.example.solutionchallenge.app.diary.dto.request.DiarySaveRequestDto;
-import com.example.solutionchallenge.app.diary.dto.response.DiaryResponseDto;
 import com.example.solutionchallenge.app.diary.service.DiaryService;
-import com.example.solutionchallenge.utils.SecurityUtil;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -19,7 +13,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
