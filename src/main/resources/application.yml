@@ -5,8 +5,6 @@ spring:
   profiles:
     active: dev
 
-  redis:
-
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://34.64.189.204:3306/gdscDB?serverTimezone=Asia/Seoul
@@ -36,6 +34,10 @@ spring:
           location: classpath:strecording-storage-access.json
         project-id: eng-drake-410407
         bucket: gdsc-bucket
+
+  redis:
+    host:localhost
+    port:6379
 
 mybatis:
   mapper-locations: classpath:mapper/*.xml

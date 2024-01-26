@@ -12,12 +12,17 @@ import com.google.cloud.storage.BlobInfo;
 import com.google.cloud.storage.Storage;
 import com.google.cloud.storage.StorageOptions;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicInteger;
 
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -73,6 +78,26 @@ public class DiaryService {
 
     public void deleteDiary(Long diaryId) {
         diaryRepository.deleteById(diaryId);
+    }
+
+    @Autowired
+    DiaryRepository repository;
+
+    @Cacheable(key = "#size", value = "getDiaries")
+    public List<Diary> getDiaries(String size) {
+        dbCount.incrementAndGet();
+        ArrayList<Diary> diaries = new ArrayList<Diary>();
+        int count = Integer.parseInt(size);
+
+        for (int i = 0; i < count; i++) {
+            diaries.add(new Diary());
+        }
+
+        return diaries;
+    }
+    private AtomicInteger dbCount = new AtomicInteger(0);
+    public int getDbCount() {
+        return dbCount.get();
     }
 
 }

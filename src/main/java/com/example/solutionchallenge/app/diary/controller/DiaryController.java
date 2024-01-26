@@ -1,6 +1,9 @@
 package com.example.solutionchallenge.app.diary.controller;
 
+import com.example.solutionchallenge.app.diary.domain.Diary;
 import com.example.solutionchallenge.app.diary.dto.response.DiaryResponseDto;
+import com.example.solutionchallenge.app.user.domain.Users;
+import com.example.solutionchallenge.app.user.service.UserService;
 import com.example.solutionchallenge.utils.SecurityUtil;
 import com.example.solutionchallenge.app.common.dto.response.ResponseDto;
 import com.example.solutionchallenge.app.common.dto.response.ResponseUtil;
@@ -12,6 +15,7 @@ import com.example.solutionchallenge.utils.SecurityUtil;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,6 +24,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 @Tag(name = "일기", description = "일기 API")
 @RequiredArgsConstructor
@@ -51,4 +57,15 @@ public class DiaryController {
       diaryService.deleteDiary(diaryId);
         return ResponseUtil.SUCCESS("일기 삭제에 성공하였습니다.", diaryId);
   }
+    @Autowired
+    DiaryService service;
+    @GetMapping()
+    public List<Diary> diaries(String size) {
+        List<Diary> diaries = service.getDiaries(size);
+        return diaries;
+    }
+    @GetMapping("count")
+    public int count() {
+        return service.getDbCount();
+    }
 }
