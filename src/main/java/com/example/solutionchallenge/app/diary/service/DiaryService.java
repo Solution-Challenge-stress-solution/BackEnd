@@ -48,7 +48,7 @@ public class DiaryService {
                 () -> new IllegalArgumentException("해당 유저가 없습니다. id=" + userId));
 
         try {
-            ClassPathResource resource = new ClassPathResource("strecording-storage-access.json");
+            ClassPathResource resource = new ClassPathResource("strecording-upload.json");
             GoogleCredentials credentials = GoogleCredentials.fromStream(resource.getInputStream());
             Storage storage = StorageOptions.newBuilder().setProjectId(projectId).setCredentials(credentials)
                     .build().getService();
@@ -80,24 +80,24 @@ public class DiaryService {
         diaryRepository.deleteById(diaryId);
     }
 
-    @Autowired
-    DiaryRepository repository;
-
-    @Cacheable(key = "#size", value = "getDiaries")
-    public List<Diary> getDiaries(String size) {
-        dbCount.incrementAndGet();
-        ArrayList<Diary> diaries = new ArrayList<Diary>();
-        int count = Integer.parseInt(size);
-
-        for (int i = 0; i < count; i++) {
-            diaries.add(new Diary());
-        }
-
-        return diaries;
-    }
-    private AtomicInteger dbCount = new AtomicInteger(0);
-    public int getDbCount() {
-        return dbCount.get();
-    }
+//    @Autowired
+//    DiaryRepository repository;
+//
+//    @Cacheable(key = "#size", value = "getDiaries")
+//    public List<Diary> getDiaries(String size) {
+//        dbCount.incrementAndGet();
+//        ArrayList<Diary> diaries = new ArrayList<Diary>();
+//        int count = Integer.parseInt(size);
+//
+//        for (int i = 0; i < count; i++) {
+//            diaries.add(new Diary());
+//        }
+//
+//        return diaries;
+//    }
+//    private AtomicInteger dbCount = new AtomicInteger(0);
+//    public int getDbCount() {
+//        return dbCount.get();
+//    }
 
 }
