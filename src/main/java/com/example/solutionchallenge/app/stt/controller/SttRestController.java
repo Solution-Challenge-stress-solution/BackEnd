@@ -12,7 +12,7 @@ import java.io.IOException;
 
 @Slf4j
 @RestController
-@RequestMapping("/api/audio")
+@RequestMapping("/api/stt")
 public class SttRestController {
 
     @Autowired
