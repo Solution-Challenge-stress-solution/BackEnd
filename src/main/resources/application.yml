@@ -29,6 +29,8 @@ spring:
 
   cloud:
     gcp:
+      credentials:
+        location: classpath:stt.json
       storage:
         credentials:
           location: classpath:strecording-upload.json

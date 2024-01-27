@@ -1,14 +1,17 @@
 package com.example.solutionchallenge.app.stt.controller;
 
+import com.example.solutionchallenge.app.common.dto.response.ResponseDto;
+import com.example.solutionchallenge.app.common.dto.response.ResponseUtil;
 import com.example.solutionchallenge.app.stt.service.SpeechToTextService;
+import java.io.IOException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.io.IOException;
 
 @Slf4j
 @RestController
@@ -24,11 +27,10 @@ public class SttRestController {
      * @return 녹음 파일을 변환한 텍스트
      */
     @PostMapping(value = "", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<String> handleAudioMessage(@RequestParam("audioFile") MultipartFile audioFile, @RequestParam("os") String os, @RequestParam("lang") String lang) throws IOException {
+    public ResponseDto<String> handleAudioMessage(@RequestParam("audioFile") MultipartFile audioFile, @RequestParam("os") String os) throws IOException {
         int frequency = (os.equals("ios")) ? 48000 : 44100;
-        String language = (lang.equals("ko")) ? "ko-kR" : "en-US";
-        String transcribe = sttService.transcribe(audioFile, frequency, language);
-        return ResponseEntity.ok().body(transcribe);
+        String transcribe = sttService.transcribe(audioFile, frequency);
+        return ResponseUtil.SUCCESS("변환에 성공하였습니다.", transcribe);
     }
 
 }
