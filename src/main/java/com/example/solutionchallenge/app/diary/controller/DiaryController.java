@@ -39,11 +39,12 @@ public class DiaryController {
     private final DiaryService diaryService;
 
     @Operation(summary = "일기 저장", description = "일기 생성 API, 오디오파일 확장자는 .flac")
-    @PostMapping("") //415 에러 발생 시 @RequestBody 지워서 ㄱㄱ
+    @PostMapping("/activities/{activityId}") //415 에러 발생 시 @RequestBody 지워서 ㄱㄱ
     public ResponseDto<Long> save(HttpServletRequest request,
                                   @RequestPart(value = "audioFile", required = false) MultipartFile audioFile,
-                                  DiarySaveRequestDto requestDto) {
-        Long diaryId = diaryService.save(audioFile, requestDto, 1L);
+                                  DiarySaveRequestDto requestDto,
+                                  @Parameter(description = "추천 활동 인덱스") @PathVariable("activityId") Long activityId) {
+        Long diaryId = diaryService.save(audioFile, requestDto, 1L, activityId);
         if (diaryId == 0) {
             return ResponseUtil.FAILURE("일기 저장에 실패하였습니다.", 0L);
         }
@@ -59,7 +60,8 @@ public class DiaryController {
 
     @Operation(summary = "일기 삭제", description = "일기 삭제 API")
     @DeleteMapping("/{diaryId}")
-    public ResponseDto<Long> deleteDiary(HttpServletRequest request, @Parameter(description = "일기 인덱스") @PathVariable("diaryId") Long diaryId) {
+    public ResponseDto<Long> deleteDiary(HttpServletRequest request,
+                                         @Parameter(description = "일기 인덱스") @PathVariable("diaryId") Long diaryId) {
         diaryService.deleteDiary(diaryId);
         return ResponseUtil.SUCCESS("일기 삭제에 성공하였습니다.", diaryId);
     }
