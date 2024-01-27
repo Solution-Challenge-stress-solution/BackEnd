@@ -5,6 +5,8 @@ import com.example.solutionchallenge.app.diary.domain.Diary;
 import com.example.solutionchallenge.app.diary.dto.request.DiarySaveRequestDto;
 import com.example.solutionchallenge.app.diary.repository.DiaryRepository;
 
+import com.example.solutionchallenge.app.recommendedActivity.RecommendedActivityRepository;
+import com.example.solutionchallenge.app.recommendedActivity.domain.RecommendedActivity;
 import com.example.solutionchallenge.app.user.domain.Users;
 import com.example.solutionchallenge.app.user.repository.UsersRepository;
 import com.google.auth.oauth2.GoogleCredentials;
@@ -36,6 +38,7 @@ public class DiaryService {
 
     private final DiaryRepository diaryRepository;
     private final UsersRepository usersRepository;
+    private final RecommendedActivityRepository activityRepository;
 
     @Value("${spring.cloud.gcp.storage.bucket}")
     private String bucketName;
@@ -43,9 +46,12 @@ public class DiaryService {
     @Value("${spring.cloud.gcp.storage.project-id}")
     private String projectId;
 
-    public Long save(MultipartFile audioFile, DiarySaveRequestDto requestDto, Long userId) {
+    public Long save(MultipartFile audioFile, DiarySaveRequestDto requestDto, Long userId, Long activityId) {
         Users users = usersRepository.findById(userId).orElseThrow(
                 () -> new IllegalArgumentException("해당 유저가 없습니다. id=" + userId));
+
+        RecommendedActivity recommendedActivity = activityRepository.findById(activityId).orElseThrow(
+                () -> new IllegalArgumentException("해당 추천 활동이 없습니다. id=" + activityId));
 
         try {
             ClassPathResource resource = new ClassPathResource("strecording-upload.json");
@@ -60,7 +66,7 @@ public class DiaryService {
             String audioUrl = "https://storage.googleapis.com/" + bucketName + "/" + uuid;
             System.out.println(audioUrl);
 
-            Long diaryId = diaryRepository.save(requestDto.toEntity(users, audioUrl)).getId();
+            Long diaryId = diaryRepository.save(requestDto.toEntity(users, audioUrl, recommendedActivity)).getId();
             return diaryId;
         } catch (IOException e) {
             e.printStackTrace();
@@ -72,7 +78,7 @@ public class DiaryService {
         Diary diary = diaryRepository.findById(diaryId).orElseThrow(
                 () -> new IllegalArgumentException("해당 일기가 없습니다. id=" + diaryId));
         DiaryResponseDto diaryResponseDto = DiaryResponseDto.builder()
-                .diary(diary).build();
+                .diary(diary).recommendedActivity(diary.getRecommendedActivity()).build();
         return diaryResponseDto;
     }
 

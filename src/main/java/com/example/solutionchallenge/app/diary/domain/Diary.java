@@ -1,5 +1,6 @@
 package com.example.solutionchallenge.app.diary.domain;
 
+import com.example.solutionchallenge.app.recommendedActivity.domain.RecommendedActivity;
 import com.example.solutionchallenge.app.user.domain.Users;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -26,7 +27,6 @@ public class Diary extends BaseTimeEntity {
     private String content;
     private String audioFileUrl;
     private String stressLevel;
-    private String recommendedActivity;
 
     @Enumerated(EnumType.STRING)
     private DiaryStatus status;
@@ -35,19 +35,28 @@ public class Diary extends BaseTimeEntity {
     @JoinColumn(name = "user_id")
     private Users users;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "recommended_activity_id")
+    private RecommendedActivity recommendedActivity;
+
     public void setUsers(Users users) {
         this.users = users;
         users.getDiaryList().add(this);
     }
 
+    public void setRecommendedActivity(RecommendedActivity recommendedActivity) {
+        this.recommendedActivity = recommendedActivity;
+        recommendedActivity.getDiaryList().add(this);
+    }
+
     @Builder
-    public Diary(String content, String audioFileUrl, String stressLevel, String recommendedActivity,
-                 DiaryStatus status, Users users) {
+    public Diary(String content, String audioFileUrl, String stressLevel, DiaryStatus status, Users users,
+                 RecommendedActivity recommendedActivity) {
         this.content = content;
         this.audioFileUrl = audioFileUrl;
         this.stressLevel = stressLevel;
-        this.recommendedActivity = recommendedActivity;
         this.status = status;
         this.setUsers(users);
+        this.setRecommendedActivity(recommendedActivity);
     }
 }
