@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "eng-drake-410407",
+  "private_key_id": "e4b8f81edf3cd41dfdd0d863fdc51f9de8218637",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQC7bSFsr+JYRMAc\nbV43c6t9DV9bUc73YuJrWCqsJprIG27YnOB5GglnG0oGvgxr8OMX1j457RHgxzdr\nCA2bvrJInkF6c0mFVPLBEJGDbguQHIQHXDXFtbYJBQ944k/hjo+qUHD95UVUvS5R\ncHxx11DiRQ0hYzcm9KpUNhHM8tYUnC68ZLrUg7+Y9ZcODTu8GHG3AqcnNsNTDj+l\nS5Ri3Prk0uXcx6jZhruNsv1i3f44L3Bs0N5fhpQiqOa9iXBWXSLvPyrD/cm5407V\nHONJIqG6THj5my+WpAK0Ca/DoNKnj96wTEJlB/27lXaDutOCGSUtfGIxEXqMJoUx\nUt1dyqQDAgMBAAECggEAN56wmxjs8iXg3u7D1W/hlbg4sphp83coWxOsgi7ooval\nI+oWIUoNPUhXZP3UINo5AjNlfvov4oUsGHqo0y25qZwxMT3yNPubGJkqnZa0Hr2f\nnrGKEZSVo0KZr1V1wCl2z+OUTHxT4UxM6QUZIQ11Jti4B07yqIBV5aywBqKPzkhy\nKxTXxp+x6YhGUevBsiUoTKRTfPobeREN+hTkqyD7ch71qjtjb6fWMJGDk7IhgojR\nC1MBhZRsUe1GZij+fFIvsUtxfQbQTsGpRC1tOkkvPeSbvSSzky3I5l4TgUP5hPkx\nYle6djHsJQ1P+05T8jRvKJrLK+EttI2zxOw14RvJ1QKBgQD1ZDhCcFvzNq5exU13\nuR29c5iDmvE0fWYAX5ZWrbXKzLorWuWA9GIXAbLnsHt5elqPgsfUGWpn6td5ekpR\nOMoSixFNH55IX7DQ8m2mm5JMEn1NzYDaWRtcpbEIx8wry1cFtaGCkEWmTq+uh9we\n92vnUjH4CSXuw2LY84q6gVwVjwKBgQDDh2b89mcrx47ml5uAChN6Q2tmmkn86goq\neRdhf1jzEboaT762W3mBpzE9bS2D3t9152v7SxRtebXs0byzcDPm9F1SNrcI3Tp5\nizh7YjGdDpgh7bYPqZjWi+HAu4lSrVo+cFlaJD7JTG6C1lTnxzOeGo1zNbQmCAvp\n3LSE9eFYTQKBgEgPNwojjozcONYxoC8RGC+i+11iKYSdck+XwkEP37t+5QiIN67n\nlMpmwE+THp8sk91irSWWlQ2RA9dzVtGFGKnbVqhMKaHdH8Ir/pEXTB20rEEloLn9\nwrAxI8yNR2Jw4swVayk5DorovmRFFxms1G3oUC4jGZWEoMlOsyVTiWP3AoGAdwa7\nC+yXe5AcjoTl9TitCLV38NqlhZ+XFqnmMMTMChPVfWTkDLB8tA9qKyGGHouS7nw1\nQKFAyy/XLlWzEGySO9qv4HdMTsoVaZ31gS6SUzBqLeU9+iTc1GYMxD2lZ739fJr5\n2aTMz8+GSoFc6EdcRbeWOfcMNkaZsgBXp8TiK9UCgYAs0Q8VwuVTzGK2tTVAb/RG\nzUfZKxnNNdOIKGJ0vKyt2piy2YXM8uFgbOTkhV3sPe5gxP1t9ek3GYvdG0otbwPz\n30VLzACKP7HwFmwTcjuotVEew2nflD3iIFu8jcirwSIbPYBphgBZW1Xheqg8r5vf\ny7hrm8ygm4Ha7H+DhctCTA==\n-----END PRIVATE KEY-----\n",
+  "client_email": "strecording-access@eng-drake-410407.iam.gserviceaccount.com",
+  "client_id": "100264042380793438800",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/strecording-access%40eng-drake-410407.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
