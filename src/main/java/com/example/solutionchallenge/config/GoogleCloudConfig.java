@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.Resource;
 
 @Configuration
-public class GoogleCloudConfiguration {
+public class GoogleCloudConfig {
 
     @Value("classpath:stt.json")
     Resource gcsCredentials;
