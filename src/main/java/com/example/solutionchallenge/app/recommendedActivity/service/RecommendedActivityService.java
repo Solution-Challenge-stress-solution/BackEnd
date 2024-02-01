@@ -1,8 +1,8 @@
 package com.example.solutionchallenge.app.recommendedActivity.service;
 
+import com.example.solutionchallenge.app.recommendedActivity.RecommendedActivityRepository;
 import com.example.solutionchallenge.app.recommendedActivity.domain.RecommendedActivity;
 import com.example.solutionchallenge.app.recommendedActivity.dto.ActivityResponseDto;
-import com.example.solutionchallenge.app.recommendedActivity.repository.RecommendedActivityRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

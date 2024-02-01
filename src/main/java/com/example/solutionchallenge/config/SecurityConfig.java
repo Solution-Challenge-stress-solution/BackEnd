@@ -16,6 +16,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
@@ -37,8 +38,8 @@ public class SecurityConfig {
         return http.cors(withDefaults())
                 .csrf((csrf) -> csrf.disable())
                 .authorizeHttpRequests((authorize) -> authorize
-                        .requestMatchers("/login/**", "/token/refresh").permitAll()
-                        .requestMatchers("/user/**").hasAuthority(UserRole.USER.getRole())
+                        .requestMatchers(new AntPathRequestMatcher("/login/**"), new AntPathRequestMatcher("/token/refresh")).permitAll()
+                        .requestMatchers(new AntPathRequestMatcher("/user/**")).hasAuthority(UserRole.USER.getRole())
                         .anyRequest().authenticated())
                 .sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .formLogin(httpSecurityFormLoginConfigurer -> httpSecurityFormLoginConfigurer.disable()) // 로그인 폼 미사용
@@ -53,7 +54,6 @@ public class SecurityConfig {
         // 아래 url은 filter 에서 제외
         return web ->
                 web.ignoring()
-                        .requestMatchers("/login/**", "/token/refresh");
+                        .requestMatchers(new AntPathRequestMatcher("/login/**"), new AntPathRequestMatcher("/token/refresh"));
     }
 }
-
