@@ -3,7 +3,7 @@ server:
 
 spring:
   profiles:
-    active: dev
+    active: local
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -37,9 +37,9 @@ spring:
         project-id: eng-drake-410407
         bucket: gdsc-bucket
 
-  redis:
-    host:localhost
-    port:6379
+#  redis:
+#    host:localhost
+#    port:6379
 
 mybatis:
   mapper-locations: classpath:mapper/*.xml
