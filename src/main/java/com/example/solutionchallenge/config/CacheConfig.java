@@ -12,27 +12,27 @@ import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSeriali
 import org.springframework.data.redis.serializer.RedisSerializationContext;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
-@Configuration
-public class CacheConfig {
+//@Configuration
+//public class CacheConfig {
 
-    @Autowired
-    RedisConnectionFactory redisConnectionFactory;
+//    @Autowired
+//    RedisConnectionFactory redisConnectionFactory;
 
-    @Autowired
-    ObjectMapper objectMapper;
+//    @Autowired
+//    ObjectMapper objectMapper;
 
-    @Autowired
-    RedisConnectionFactory connectionFactory;
+//    @Autowired
+//    RedisConnectionFactory connectionFactory;
 
 
-    @Bean
-    public CacheManager redisCacheManager() {
-        RedisCacheConfiguration redisCacheConfiguration = RedisCacheConfiguration.defaultCacheConfig()
-                .serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(new StringRedisSerializer()))
-                .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new GenericJackson2JsonRedisSerializer()));
+//    @Bean
+//    public CacheManager redisCacheManager() {
+//        RedisCacheConfiguration redisCacheConfiguration = RedisCacheConfiguration.defaultCacheConfig()
+//                .serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(new StringRedisSerializer()))
+//                .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new GenericJackson2JsonRedisSerializer()));
 
-        RedisCacheManager redisCacheManager = RedisCacheManager.RedisCacheManagerBuilder.fromConnectionFactory(connectionFactory).cacheDefaults(redisCacheConfiguration).build();
-        return redisCacheManager;
-    }
+//        RedisCacheManager redisCacheManager = RedisCacheManager.RedisCacheManagerBuilder.fromConnectionFactory(connectionFactory).cacheDefaults(redisCacheConfiguration).build();
+//        return redisCacheManager;
+//    }
 
-}
+//}
