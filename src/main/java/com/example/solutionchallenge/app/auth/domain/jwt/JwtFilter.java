@@ -25,8 +25,33 @@ public class JwtFilter extends GenericFilterBean {
     private final JwtTokenService jwtTokenService;
     private final UserService userService;
 
+
     //Filter 에서 액세스토큰이 유효한지 확인 후 SecurityContext에 계정정보 저장
     @Override
+    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
+
+        HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
+        System.out.println(((HttpServletRequest) servletRequest).getRequestURL());
+        logger.info("[JwtFilter] : " + httpServletRequest.getRequestURL().toString());
+        String jwt = resolveToken(httpServletRequest);
+        System.out.println("jwt: " + jwt);
+
+       if (StringUtils.hasText(jwt) && jwtTokenService.validateToken(jwt)) {
+            Long userId = Long.valueOf(jwtTokenService.getPayload(jwt)); // 토큰에 있는 userId 가져오기
+            UserDto user = userService.findById(userId); // userId로
+            if(user == null) {
+                throw new ApiException(ErrorCode.NOT_EXIST_USER);
+            }
+            UserDetails userDetails = UserPrincipal.create(user);
+            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+        } else {
+            throw new ApiException(ErrorCode.INVALID_ACCESS_TOKEN);
+        }
+
+        filterChain.doFilter(servletRequest, servletResponse);
+    }
+
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
         logger.info("[JwtFilter] : " + httpServletRequest.getRequestURL().toString());
@@ -66,6 +91,7 @@ public class JwtFilter extends GenericFilterBean {
 
         filterChain.doFilter(servletRequest, servletResponse);
     }
+
 
     // Header에서 Access Token 가져오기
     private String resolveToken(HttpServletRequest request) {
