@@ -70,7 +70,7 @@ jobs:
         passphrase: ${{ secrets.SSH_PASSPHRASE }}
         envs: GITHUB_SHA
         script: |
-          docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_PASSWORD }}
+          sudo docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_PASSWORD }}
           echo "docker 로그인 성공"
           sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/strecording
           echo "docker pull 성공"
