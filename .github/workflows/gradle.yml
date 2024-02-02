@@ -7,10 +7,14 @@
 
 name: Deploy
 
+#on:
+#  push:
+#    branches: [ "dev_joon" ]
+#  pull_request:
+#    branches: [ "main" ]
+
 on:
   push:
-    branches: [ "dev_joon" ]
-  pull_request:
     branches: [ "main" ]
 
 permissions:
@@ -35,14 +39,24 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
     # 환경 변수 설정
-    - name: Set environment values
-      run: |
-        cd ./src/main/resources
-        touch ./env.properties
-        echo "${{ secrets.ENV }}" > ./env.properties
-      shell: bash
+#    - name: Set environment values
+#      run: |
+#        cd ./src/main/resources
+#        touch ./env.properties
+#        echo "${{ secrets.ENV }}" > ./env.properties
+#      shell: bash
+
     # Gradle build (Test 제외)
     - name: Build with Gradle
       uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
       with:
         arguments: clean build -x test
+
+    # Docker 이미지 빌드
+    - name: Docker build & push to Docker repo
+      run: |
+        docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_PASSWORD }}
+        echo "docker 로그인 성공"
+        docker build -t koc2827857/strecording .
+        echo "docker 빌드 성공"
+        docker push koc2827857.strecording

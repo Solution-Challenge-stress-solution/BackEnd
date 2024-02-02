@@ -1,6 +1,6 @@
 package com.example.solutionchallenge.app.common.dto.response;
 
-import com.example.solutionchallenge.app.common.constant.ErrorCode;
+import com.example.solutionchallenge.app.auth.domain.constant.ErrorCode;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;

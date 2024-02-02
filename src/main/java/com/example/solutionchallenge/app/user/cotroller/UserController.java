@@ -1,7 +1,7 @@
 package com.example.solutionchallenge.app.user.cotroller;
 
 import com.example.solutionchallenge.app.common.exception.ApiException;
-import com.example.solutionchallenge.app.common.constant.ErrorCode;
+import com.example.solutionchallenge.app.auth.domain.constant.ErrorCode;
 import com.example.solutionchallenge.app.user.domain.Users;
 import com.example.solutionchallenge.app.user.dto.UserDto;
 import com.example.solutionchallenge.app.user.service.UserService;
