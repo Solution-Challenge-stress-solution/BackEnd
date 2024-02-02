@@ -17,10 +17,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
+import static com.example.solutionchallenge.app.common.constant.ErrorCode.UNAUTHORIZED;
+
 @RestController
 @RequiredArgsConstructor
 public class OauthController {
     private final OauthService oauthService;
+    private final KakaoApiService kakao;
 
     @PostMapping("/login/oauth/{provider}")
     public OauthResponseDto login(@PathVariable String provider, @RequestBody OauthRequestDto oauthRequestDto,
@@ -30,16 +33,14 @@ public class OauthController {
             case "kakao":
                 String accessToken = oauthService.loginWithKakao(oauthRequestDto.getAccessToken(), response);
                 oauthResponseDto.setAccessToken(accessToken);
+                break;
+            default:
+                throw new ApiException(UNAUTHORIZED);
         }
         return oauthResponseDto;
     }
-
-    @Autowired
-    private KakaoApiService kakao;
-
     @RequestMapping(value="/")
     public String index() {
-
         return "index";
     }
 
@@ -47,7 +48,6 @@ public class OauthController {
     public String login(@RequestParam("code") String code) {
         String access_Token = kakao.getAccessToken(code);
         System.out.println("controller access_token : " + access_Token);
-
         return "index";
     }
 }
@@ -70,5 +70,4 @@ public class OauthController {
         refreshTokenResponseDto.setAccessToken(accessToken);
         return refreshTokenResponseDto;
     }
-}
 
