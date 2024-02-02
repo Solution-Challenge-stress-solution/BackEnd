@@ -1,7 +1,7 @@
 package com.example.solutionchallenge.utils;
 
 import com.example.solutionchallenge.app.common.exception.ApiException;
-import com.example.solutionchallenge.app.common.constant.ErrorCode;
+import com.example.solutionchallenge.app.auth.domain.constant.ErrorCode;
 import com.sun.security.auth.UserPrincipal;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;

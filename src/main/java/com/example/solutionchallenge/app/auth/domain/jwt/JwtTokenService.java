@@ -1,17 +1,15 @@
 package com.example.solutionchallenge.app.auth.domain.jwt;
 
 import com.example.solutionchallenge.app.common.exception.ApiException;
-import com.example.solutionchallenge.app.common.constant.ErrorCode;
+import com.example.solutionchallenge.app.auth.domain.constant.ErrorCode;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.io.Encoders;
 import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
-import org.checkerframework.checker.units.qual.C;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.nio.charset.StandardCharsets;

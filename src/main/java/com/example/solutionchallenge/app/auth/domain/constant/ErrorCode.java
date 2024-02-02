@@ -1,4 +1,4 @@
-package com.example.solutionchallenge.app.common.constant;
+package com.example.solutionchallenge.app.auth.domain.constant;
 
 import org.springframework.http.HttpStatus;
 

@@ -3,7 +3,7 @@ package com.example.solutionchallenge.app.auth.service;
 import com.example.solutionchallenge.app.auth.domain.jwt.JwtTokenService;
 import com.example.solutionchallenge.app.auth.domain.oauth2.kakao.KakaoOauthService;
 import com.example.solutionchallenge.app.common.exception.ApiException;
-import com.example.solutionchallenge.app.common.constant.ErrorCode;
+import com.example.solutionchallenge.app.auth.domain.constant.ErrorCode;
 import com.example.solutionchallenge.app.user.dto.UserDto;
 import com.example.solutionchallenge.app.user.service.UserService;
 import jakarta.servlet.http.HttpServletResponse;

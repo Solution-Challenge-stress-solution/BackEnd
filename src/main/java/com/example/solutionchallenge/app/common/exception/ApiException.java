@@ -1,6 +1,6 @@
 package com.example.solutionchallenge.app.common.exception;
 
-import com.example.solutionchallenge.app.common.constant.ErrorCode;
+import com.example.solutionchallenge.app.auth.domain.constant.ErrorCode;
 import lombok.Getter;
 
 @Getter
