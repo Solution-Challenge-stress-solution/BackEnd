@@ -17,7 +17,7 @@ import reactor.core.publisher.Flux;
 public class KakaoOauthService {
     private final UserService userService;
 
-    // 카카오Api 호출해서 AccessToken으로 유저정보 가져오기
+    // 카카오API 호출해서 AccessToken으로 유저정보 가져오기
     public Map<String, Object> getUserAttributesByToken(String accessToken){
         System.out.println("33333333333333333333333333333333333");
 

@@ -1,5 +1,6 @@
 package com.example.solutionchallenge.app.auth.controller;
 
+import com.example.solutionchallenge.app.auth.domain.oauth2.kakao.KakaoApiService;
 import com.example.solutionchallenge.app.common.exception.ApiException;
 import com.example.solutionchallenge.app.common.constant.ErrorCode;
 import com.example.solutionchallenge.app.auth.dto.request.OauthRequestDto;
@@ -10,18 +11,19 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
 import java.util.stream.Collectors;
+
+import static com.example.solutionchallenge.app.common.constant.ErrorCode.UNAUTHORIZED;
 
 @RestController
 @RequiredArgsConstructor
 public class OauthController {
     private final OauthService oauthService;
+    private final KakaoApiService kakao;
 
     @PostMapping("/login/oauth/{provider}")
     public OauthResponseDto login(@PathVariable String provider, @RequestBody OauthRequestDto oauthRequestDto,
@@ -32,9 +34,24 @@ public class OauthController {
                 System.out.println("1111111111111111111");
                 String accessToken = oauthService.loginWithKakao(oauthRequestDto.getAccessToken(), response);
                 oauthResponseDto.setAccessToken(accessToken);
+                break;
+            default:
+                throw new ApiException(UNAUTHORIZED);
         }
         return oauthResponseDto;
     }
+    @RequestMapping(value="/")
+    public String index() {
+        return "index";
+    }
+
+    @RequestMapping(value="/login")
+    public String login(@RequestParam("code") String code) {
+        String access_Token = kakao.getAccessToken(code);
+        System.out.println("controller access_token : " + access_Token);
+        return "index";
+    }
+}
 
     // 리프레시 토큰으로 액세스토큰 재발급 받는 로직
     @PostMapping("/token/refresh")
@@ -54,5 +71,4 @@ public class OauthController {
         refreshTokenResponseDto.setAccessToken(accessToken);
         return refreshTokenResponseDto;
     }
-}
 
