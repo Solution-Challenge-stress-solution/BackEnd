@@ -16,7 +16,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 public class KakaoOauthService {
     private final UserService userService;
 
-    // 카카오Api 호출해서 AccessToken으로 유저정보 가져오기
+    // 카카오API 호출해서 AccessToken으로 유저정보 가져오기
     public Map<String, Object> getUserAttributesByToken(String accessToken){
         return WebClient.create()
                 .get()
