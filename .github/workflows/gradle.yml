@@ -63,7 +63,6 @@ jobs:
 
     - name: Build and Deploy
       uses: appleboy/ssh-action@master
-        id: deploy
         with:
           host: 34.64.90.112
           username: ${{ secrets.SSH_USERNAME }}
