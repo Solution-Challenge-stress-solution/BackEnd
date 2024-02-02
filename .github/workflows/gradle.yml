@@ -59,4 +59,4 @@ jobs:
         echo "docker 로그인 성공"
         docker build -t koc2827857/strecording .
         echo "docker 빌드 성공"
-        docker push koc2827857.strecording
+        docker push koc2827857/strecording
