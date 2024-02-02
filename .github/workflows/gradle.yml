@@ -63,14 +63,14 @@ jobs:
 
     - name: Build and Deploy
       uses: appleboy/ssh-action@master
-        with:
-          host: 34.64.90.112
-          username: ${{ secrets.SSH_USERNAME }}
-          key: ${{ secrets.SSH_KEY }}
-          envs: GITHUB_SHA
-          script: |
-            docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_PASSWORD }}
-            echo "docker 로그인 성공"
-            sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/strecording
-            echo "docker pull 성공"
-            sudo docker run -d
+      with:
+        host: 34.64.90.112
+        username: ${{ secrets.SSH_USERNAME }}
+        key: ${{ secrets.SSH_KEY }}
+        envs: GITHUB_SHA
+        script: |
+          docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_PASSWORD }}
+          echo "docker 로그인 성공"
+          sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/strecording
+          echo "docker pull 성공"
+          sudo docker run -d
