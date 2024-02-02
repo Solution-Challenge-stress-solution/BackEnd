@@ -30,7 +30,7 @@ public class RecommendedActivityController {
     private final RecommendedActivityService recommendedActivityService;
 
     @Operation(summary = "추천 활동 조회", description = "랜덤으로 생성한 추천활동 번호로 조회")
-    @GetMapping("{activityId}")
+    @GetMapping("/{activityId}")
     public ResponseDto<ActivityResponseDto> findById(@Parameter(description = "추천 활동 인덱스") @PathVariable("activityId") Long activityId) {
         return ResponseUtil.SUCCESS("추천 활동 조회에 성공하였습니다.", recommendedActivityService.findById(activityId));
     }
