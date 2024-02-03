@@ -3,6 +3,7 @@ package com.example.solutionchallenge.app.auth.domain.jwt;
 
 import com.example.solutionchallenge.app.user.domain.Users;
 import com.example.solutionchallenge.app.user.dto.UserDto;
+import com.example.solutionchallenge.app.user.service.UserService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Header;
 import io.jsonwebtoken.Jwts;
@@ -23,6 +24,7 @@ import java.util.Set;
 public class JwtTokenProvider {
 
     private final JwtProperties jwtProperties;
+    private final UserService userService;
 
     //JWT 토큰 생성
     public String createToken(Date expiry, UserDto userDto) {
@@ -60,16 +62,27 @@ public class JwtTokenProvider {
                 (), "", authorities), token, authorities);
     }
 
-    //
-    public Long getUserId(String token) {
-        Claims claims = getClaims(token);
-        return claims.get("id", Long.class);
-    }
 
     private Claims getClaims(String token) {
         return Jwts.parser()
                 .setSigningKey(jwtProperties.getSecretKey())
                 .parseClaimsJws(token)
                 .getBody();
+    }
+
+    // 리프레시 토큰을 이용해 액세스 토큰 재발급
+    public String refreshToken(String refreshToken) {
+        if (validToken(refreshToken)) {
+            Claims claims = getClaims(refreshToken);
+            String email = claims.getSubject();
+            UserDto userDto = userService.findByEmail(email);
+
+            // 새로운 만료일을 설정
+            Date expiry = new Date(System.currentTimeMillis() + jwtProperties.getAccessTokenExpirationSeconds() * 1000);
+
+            return createToken(expiry, userDto);
+        } else {
+            throw new RuntimeException("Invalid refresh token.");
+        }
     }
 }

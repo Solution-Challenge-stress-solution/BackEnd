@@ -4,6 +4,7 @@ import com.example.solutionchallenge.app.user.dto.UserDto;
 import com.example.solutionchallenge.app.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import com.example.solutionchallenge.app.user.domain.Gender;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Map;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class OAuth2UserService extends DefaultOAuth2UserService {

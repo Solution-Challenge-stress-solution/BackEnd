@@ -1,8 +1,8 @@
 package com.example.solutionchallenge.app.auth.controller;
 
+import com.example.solutionchallenge.app.auth.domain.jwt.JwtTokenProvider;
 import com.example.solutionchallenge.app.auth.dto.request.OauthRequestDto;
 import com.example.solutionchallenge.app.auth.dto.response.OauthResponseDto;
-import com.example.solutionchallenge.app.auth.service.TokenService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,11 +14,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class TokenController {
 
-    private final TokenService tokenService;
+    private final JwtTokenProvider jwtTokenProvider;
 
     @PostMapping("/api/token")
     public ResponseEntity<OauthResponseDto> createNewAccessToken(@RequestBody OauthRequestDto request) {
-        String newAccessToken = tokenService.createAccessToken(request.getRefreshToken());
+        String newAccessToken = jwtTokenProvider.refreshToken(request.getRefreshToken());
         OauthResponseDto responseDto = new OauthResponseDto();
         responseDto.setAccessToken(newAccessToken);
 
@@ -26,4 +26,5 @@ public class TokenController {
                 .body(responseDto);
     }
 }
+
 

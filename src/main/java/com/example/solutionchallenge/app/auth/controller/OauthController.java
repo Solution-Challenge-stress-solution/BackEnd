@@ -9,5 +9,8 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class OauthController {
-
+    @GetMapping("/test")
+    public String index() {
+        return "Hello World";
+    }
 }
