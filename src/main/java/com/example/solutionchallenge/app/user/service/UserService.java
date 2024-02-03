@@ -6,7 +6,6 @@ import com.example.solutionchallenge.app.user.mapper.UserMapper;
 import com.example.solutionchallenge.app.user.repository.UsersRepository;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +18,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class UserService {
 
     private final UserMapper userMapper;
+
     private AtomicInteger dbCount = new AtomicInteger(0);
 
     public void save(UserDto userDto) {
@@ -29,20 +29,24 @@ public class UserService {
         return userMapper.findById(id);
     }
 
-    public UserDto findByRefreshToken(String refreshToken) {
-        return userMapper.findByRefreshToken(refreshToken);
+    public UserDto findByEmail(String email) {
+        return userMapper.findByEmail(email);
     }
 
     public void update(UserDto userDto) {
-        userMapper.update(userDto);
-    }
+        UserDto existingUser = findByEmail(userDto.getEmail());
 
-    public void updateRefreshToken(UserDto userDto) {
-        userMapper.updateRefreshToken(userDto);
+        if (existingUser == null) {
+            save(userDto);
+        } else {
+            existingUser.setName(userDto.getName());
+            existingUser.setProfileImage(userDto.getProfileImage());
+            existingUser.setGender(userDto.getGender());
+            existingUser.setAge(userDto.getAge());
+            existingUser.setPlatform(userDto.getPlatform());
+            userMapper.update(existingUser);
+        }
     }
-
-    @Autowired
-    UsersRepository repository;
 
     @Cacheable(key = "#size", value = "getUsers")
     public List<Users> getUsers(String size) {
@@ -60,5 +64,3 @@ public class UserService {
         return dbCount.get();
     }
 }
-
-

@@ -23,9 +23,16 @@ spring:
   security:
     jwt:
       token:
+        issuer: stRecording
         secret-key: bObCca-W3tjwK0BhCnZJQlKml4ePRf5lIzlRcpZe_Bo
         access-token-expiration-seconds: 3600
-        refresh-token-expiration-seconds: 604800
+        refresh-token-giexpiration-seconds: 604800
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: 741217500982-kis8tvq8sps08aafe3fptv6i1keb082t.apps.googleusercontent.com
+            client-secret: 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
 
   cloud:
     gcp:
