@@ -1,4 +1,4 @@
-package com.example.solutionchallenge.app.auth.domain;
+package com.example.solutionchallenge.app.auth.handler;
 
 import com.example.solutionchallenge.app.auth.domain.jwt.JwtProperties;
 import com.example.solutionchallenge.app.auth.domain.jwt.JwtTokenProvider;
