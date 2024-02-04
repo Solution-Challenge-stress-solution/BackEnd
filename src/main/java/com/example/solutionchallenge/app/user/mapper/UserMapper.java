@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 public interface UserMapper {
     void save(UserDto userDto);
     UserDto findById(Long id);
-    UserDto findByRefreshToken(String refreshToken);
+    UserDto findByEmail(String email);
     void update(UserDto userDto);
-    void updateRefreshToken(UserDto userDto);
+
 }

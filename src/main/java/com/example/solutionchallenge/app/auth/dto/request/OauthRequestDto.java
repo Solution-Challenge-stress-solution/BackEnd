@@ -4,5 +4,5 @@ import lombok.Getter;
 
 @Getter
 public class OauthRequestDto {
-    private String accessToken;
+    private String refreshToken;
 }
