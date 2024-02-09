@@ -33,20 +33,20 @@ public class UserService {
         return userMapper.findByEmail(email);
     }
 
-    public void update(UserDto userDto) {
-        UserDto existingUser = findByEmail(userDto.getEmail());
-
-        if (existingUser == null) {
-            save(userDto);
-        } else {
-            existingUser.setName(userDto.getName());
-            existingUser.setProfileImage(userDto.getProfileImage());
-            existingUser.setGender(userDto.getGender());
-            existingUser.setAge(userDto.getAge());
-            existingUser.setPlatform(userDto.getPlatform());
-            userMapper.update(existingUser);
-        }
-    }
+//    public void update(UserDto userDto) {
+//        UserDto existingUser = findByEmail(userDto.getEmail());
+//
+//        if (existingUser == null) {
+//            save(userDto);
+//        } else {
+//            existingUser.setName(userDto.getName());
+//            existingUser.setProfileImage(userDto.getProfileImage());
+//            existingUser.setGender(userDto.getGender());
+//            existingUser.setAge(userDto.getAge());
+//            existingUser.setPlatform(userDto.getPlatform());
+//            userMapper.update(existingUser);
+//        }
+//    }
 
     @Cacheable(key = "#size", value = "getUsers")
     public List<Users> getUsers(String size) {
