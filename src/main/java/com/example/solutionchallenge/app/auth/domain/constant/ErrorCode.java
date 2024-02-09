@@ -13,7 +13,8 @@ public enum ErrorCode {
     INVALID_ACCESS_TOKEN("유효하지 않은 액세스 토큰입니다.", HttpStatus.UNAUTHORIZED),
     INVALID_REFRESH_TOKEN("유효하지 않은 리프레시 토큰입니다.", HttpStatus.UNAUTHORIZED),
     BAD_REQUEST("잘못된 요청입니다.", HttpStatus.BAD_REQUEST),
-    NOT_EXIST_USER("존재하지 않는 유저입니다.", HttpStatus.UNAUTHORIZED);
+    NOT_EXIST_USER("존재하지 않는 유저입니다.", HttpStatus.UNAUTHORIZED),
+    NO_EMAIL_ERROR(400, "소셜 로그인으로부터 이메일을 받아올 수 없습니다.", 1007);
 
     private final int status;
     private final String message;

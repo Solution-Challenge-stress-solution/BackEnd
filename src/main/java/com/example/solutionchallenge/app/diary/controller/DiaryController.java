@@ -44,7 +44,7 @@ public class DiaryController {
                                   @RequestPart(value = "audioFile", required = false) MultipartFile audioFile,
                                   DiarySaveRequestDto requestDto,
                                   @Parameter(description = "추천 활동 인덱스") @PathVariable("activityId") Long activityId) {
-        Long diaryId = diaryService.save(audioFile, requestDto, 1L, activityId);
+        Long diaryId = diaryService.save(request.getHeader("Authorization"), audioFile, requestDto, activityId);
         if (diaryId == 0) {
             return ResponseUtil.FAILURE("일기 저장에 실패하였습니다.", 0L);
         }
@@ -55,28 +55,15 @@ public class DiaryController {
     @GetMapping("/{diaryId}")
     public ResponseDto<DiaryResponseDto> findById(HttpServletRequest request,
                                                   @Parameter(description = "일기 인덱스") @PathVariable("diaryId") Long diaryId) {
-        return ResponseUtil.SUCCESS("일기 조회에 성공하였습니다.", diaryService.findById(diaryId));
+        return ResponseUtil.SUCCESS("일기 조회에 성공하였습니다.", diaryService.findById(request.getHeader("Authorization"), diaryId));
     }
 
     @Operation(summary = "일기 삭제", description = "일기 삭제 API")
     @DeleteMapping("/{diaryId}")
     public ResponseDto<Long> deleteDiary(HttpServletRequest request,
                                          @Parameter(description = "일기 인덱스") @PathVariable("diaryId") Long diaryId) {
-        diaryService.deleteDiary(diaryId);
+        diaryService.deleteDiary(request.getHeader("Authorization"), diaryId);
         return ResponseUtil.SUCCESS("일기 삭제에 성공하였습니다.", diaryId);
     }
 
-//    @Autowired
-//    DiaryService service;
-//
-//    @GetMapping()
-//    public List<Diary> diaries(String size) {
-//        List<Diary> diaries = service.getDiaries(size);
-//        return diaries;
-//    }
-//
-//    @GetMapping("count")
-//    public int count() {
-//        return service.getDbCount();
-//    }
 }

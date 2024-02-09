@@ -20,6 +20,14 @@ spring:
         format_sql: true
         dialect: org.hibernate.dialect.MySQL8Dialect
 
+  OAuth2:
+    google:
+      url: https://accounts.google.com/o/oauth2/v2/auth
+      client-id: 741217500982-kis8tvq8sps08aafe3fptv6i1keb082t.apps.googleusercontent.com
+      client-secret: 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
+      callback-url: http://localhost:8080/login/oauth2/code/google
+      scope: https://www.googleapis.com/auth/userinfo.email%20https://www.googleapis.com/auth/userinfo.profile
+
   security:
     jwt:
       token:
@@ -27,13 +35,18 @@ spring:
         secret-key: bObCca-W3tjwK0BhCnZJQlKml4ePRf5lIzlRcpZe_Bo
         access-token-expiration-seconds: 3600
         refresh-token-giexpiration-seconds: 604800
+        refresh-token-expiration-seconds: 604800
+
     oauth2:
       client:
         registration:
-          google:
-            client-id: 741217500982-kis8tvq8sps08aafe3fptv6i1keb082t.apps.googleusercontent.com
-            client-secret: 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
-
+          facebook:
+            client-id: 1110948053416974
+            client-secret: b3af5425a30dbfa241631a143b745291
+            scope:
+              - email
+              - public_profile
+              -
   cloud:
     gcp:
       credentials:
