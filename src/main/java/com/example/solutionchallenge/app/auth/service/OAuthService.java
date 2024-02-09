@@ -15,6 +15,7 @@ import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -39,6 +40,7 @@ public class OAuthService {
         response.sendRedirect(redirectURL);
     }
 
+    @Transactional
     public TokenInfoDto oAuthLogin(Constant.SocialLoginType socialLoginType, String code) throws IOException {
         //구글로 일회성 코드를 보내 액세스 토큰이 담긴 응답객체를 받아옴
         ResponseEntity<String> accessTokenResponse = googleOauth.requestAccessToken(code);
