@@ -1,5 +1,6 @@
 package com.example.solutionchallenge.app.diary.service;
 
+import com.example.solutionchallenge.app.auth.domain.jwt.JwtTokenProvider;
 import com.example.solutionchallenge.app.diary.dto.response.DiaryResponseDto;
 import com.example.solutionchallenge.app.diary.domain.Diary;
 import com.example.solutionchallenge.app.diary.dto.request.DiarySaveRequestDto;
@@ -16,6 +17,7 @@ import com.google.cloud.storage.StorageOptions;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -39,6 +41,8 @@ public class DiaryService {
     private final DiaryRepository diaryRepository;
     private final UsersRepository usersRepository;
     private final RecommendedActivityRepository activityRepository;
+    private final JwtTokenProvider jwtTokenProvider;
+
 
     @Value("${spring.cloud.gcp.storage.bucket}")
     private String bucketName;
@@ -46,9 +50,9 @@ public class DiaryService {
     @Value("${spring.cloud.gcp.storage.project-id}")
     private String projectId;
 
-    public Long save(MultipartFile audioFile, DiarySaveRequestDto requestDto, Long userId, Long activityId) {
-        Users users = usersRepository.findById(userId).orElseThrow(
-                () -> new IllegalArgumentException("해당 유저가 없습니다. id=" + userId));
+    public Long save(String accessToken, MultipartFile audioFile, DiarySaveRequestDto requestDto, Long activityId) {
+        System.out.println("accessToken: " + accessToken);
+        Users user = getUserByToken(accessToken);
 
         RecommendedActivity recommendedActivity = activityRepository.findById(activityId).orElseThrow(
                 () -> new IllegalArgumentException("해당 추천 활동이 없습니다. id=" + activityId));
@@ -66,7 +70,7 @@ public class DiaryService {
             String audioUrl = "https://storage.googleapis.com/" + bucketName + "/" + uuid;
             System.out.println(audioUrl);
 
-            Long diaryId = diaryRepository.save(requestDto.toEntity(users, audioUrl, recommendedActivity)).getId();
+            Long diaryId = diaryRepository.save(requestDto.toEntity(user, audioUrl, recommendedActivity)).getId();
             return diaryId;
         } catch (IOException e) {
             e.printStackTrace();
@@ -74,7 +78,8 @@ public class DiaryService {
         return 0L;
     }
 
-    public DiaryResponseDto findById(Long diaryId) {
+    public DiaryResponseDto findById(String accessToken, Long diaryId) {
+        getUserByToken(accessToken);
         Diary diary = diaryRepository.findById(diaryId).orElseThrow(
                 () -> new IllegalArgumentException("해당 일기가 없습니다. id=" + diaryId));
         DiaryResponseDto diaryResponseDto = DiaryResponseDto.builder()
@@ -82,8 +87,18 @@ public class DiaryService {
         return diaryResponseDto;
     }
 
-    public void deleteDiary(Long diaryId) {
+    public void deleteDiary(String accessToken, Long diaryId) {
+        getUserByToken(accessToken);
         diaryRepository.deleteById(diaryId);
+    }
+
+    public Users getUserByToken(String accessToken) {
+        Optional<Users> users = usersRepository.findById(jwtTokenProvider.extractSubjectFromJwt(accessToken));
+        if (users.isPresent()) {
+            return users.get();
+        } else {
+            throw new RuntimeException("토큰에 해당하는 멤버가 없습니다.");
+        }
     }
 
 //    @Autowired
