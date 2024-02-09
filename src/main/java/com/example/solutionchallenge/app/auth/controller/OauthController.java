@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-@Tag(name = "일기", description = "일기 API")
+@Tag(name = "로그인", description = "로그인 API")
 @ApiResponses({
         @ApiResponse(responseCode = "200", description = "API 정상 작동"),
         @ApiResponse(responseCode = "400", description = "BAD REQUEST"),

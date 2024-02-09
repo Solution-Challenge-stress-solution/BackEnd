@@ -9,10 +9,9 @@ import lombok.Setter;
 @Setter
 @Builder
 @AllArgsConstructor
-public class UserDto {
+public class UserResponseDto {
     private Long id;
     private String name;
     private String email;
     private String profileImage;
-    private String refreshToken;
 }
