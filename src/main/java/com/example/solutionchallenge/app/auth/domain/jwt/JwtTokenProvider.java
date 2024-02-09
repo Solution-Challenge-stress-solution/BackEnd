@@ -1,88 +1,87 @@
 package com.example.solutionchallenge.app.auth.domain.jwt;
 
-
-import com.example.solutionchallenge.app.user.domain.Users;
-import com.example.solutionchallenge.app.user.dto.UserDto;
-import com.example.solutionchallenge.app.user.service.UserService;
+import com.example.solutionchallenge.app.auth.domain.constant.ErrorCode;
+import com.example.solutionchallenge.app.common.exception.ApiException;
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Header;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import lombok.RequiredArgsConstructor;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.stereotype.Service;
-
-import java.time.Duration;
+import io.jsonwebtoken.security.Keys;
+import java.nio.charset.StandardCharsets;
+import java.security.Key;
 import java.util.Collections;
 import java.util.Date;
-import java.util.Set;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Component;
 
-@RequiredArgsConstructor
-@Service
+@Component
 public class JwtTokenProvider {
 
-    private final JwtProperties jwtProperties;
-    private final UserService userService;
+    private final Key key;
 
-    //JWT 토큰 생성
-    public String createToken(Date expiry, UserDto userDto) {
-        Date now = new Date();
-        Claims claims = Jwts.claims().setSubject(userDto.getEmail());
+    @Value("${spring.security.jwt.token.secret-key}")
+    String salt;
+
+    public JwtTokenProvider(@Value("${spring.security.jwt.token.secret-key}") String salt) {
+        this.key = Keys.hmacShaKeyFor(salt.getBytes(StandardCharsets.UTF_8));
+    }
+
+    public String generateToken(String subject, Date expiredAt) {
         return Jwts.builder()
-                .setHeaderParam(Header.TYPE, Header.JWT_TYPE)
-                .setIssuer(jwtProperties.getIssuer())
-                .setIssuedAt(now)
-                .setExpiration(expiry)
-                .claim("id", userDto.getId())
-                .signWith(SignatureAlgorithm.HS256, jwtProperties.getSecretKey())
+                .setSubject(subject)
+                .setExpiration(expiredAt)
+                .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
     }
 
-    //JWT토큰 유효성 검증
-    public boolean validToken(String token) {
+    private Claims parseClaims(String accessToken) {
         try {
-            Jwts.parser()
-                    .setSigningKey(jwtProperties.getSecretKey())
-                    .parseClaimsJws(token);
-
-            return true;
-        } catch (Exception e) {
-            return false;
+            return Jwts.parserBuilder()
+                    .setSigningKey(key)
+                    .build()
+                    .parseClaimsJws(accessToken)
+                    .getBody();
+        } catch (ExpiredJwtException e) {
+            return e.getClaims();
         }
     }
 
-    //토큰 기반으로 인증정보 가져오기
-    public Authentication getAuthentication(String token) {
-        Claims claims = getClaims(token);
-        Set<SimpleGrantedAuthority> authorities = Collections.singleton(new SimpleGrantedAuthority("ROLE_USER"));
-
-        return new UsernamePasswordAuthenticationToken(new org.springframework.security.core.userdetails.User(claims.getSubject
-                (), "", authorities), token, authorities);
+    public Authentication getAuthentication(String accessToken) {
+        Claims claims = parseClaims(accessToken);
+        UserDetails principal = new User(claims.getSubject(), "", Collections.emptyList());
+        return new UsernamePasswordAuthenticationToken(principal, "", Collections.emptyList());
     }
 
-
-    private Claims getClaims(String token) {
-        return Jwts.parser()
-                .setSigningKey(jwtProperties.getSecretKey())
-                .parseClaimsJws(token)
-                .getBody();
-    }
-
-    // 리프레시 토큰을 이용해 액세스 토큰 재발급
-    public String refreshToken(String refreshToken) {
-        if (validToken(refreshToken)) {
-            Claims claims = getClaims(refreshToken);
-            String email = claims.getSubject();
-            UserDto userDto = userService.findByEmail(email);
-
-            // 새로운 만료일을 설정
-            Date expiry = new Date(System.currentTimeMillis() + jwtProperties.getAccessTokenExpirationSeconds() * 1000);
-
-            return createToken(expiry, userDto);
-        } else {
-            throw new RuntimeException("Invalid refresh token.");
+    public Long extractSubjectFromJwt(String accessToken) {
+        try {
+            String token = getToken(accessToken);
+            Claims claims = Jwts.parser()
+                    .setSigningKey(key)
+                    .parseClaimsJws(token)
+                    .getBody();
+            String subject = claims.getSubject();
+            return Long.parseLong(subject);
+        } catch (IllegalArgumentException e) {
+            throw new ApiException(ErrorCode.WRONG_TYPE_TOKEN);
+        } catch (NullPointerException e) {
+            throw new ApiException(ErrorCode.UNKNOWN_ERROR);
         }
+    }
+
+    public boolean validateToken(String token) {
+        Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
+        return true;
+    }
+
+    public String getToken(String token) {
+        if (token.length() < 7) {
+            throw new RuntimeException("토큰에 오류가 있습니다.");
+        }
+        token = token.substring(7).trim();
+        return token;
     }
 }
