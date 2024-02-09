@@ -101,24 +101,5 @@ public class DiaryService {
         }
     }
 
-//    @Autowired
-//    DiaryRepository repository;
-//
-//    @Cacheable(key = "#size", value = "getDiaries")
-//    public List<Diary> getDiaries(String size) {
-//        dbCount.incrementAndGet();
-//        ArrayList<Diary> diaries = new ArrayList<Diary>();
-//        int count = Integer.parseInt(size);
-//
-//        for (int i = 0; i < count; i++) {
-//            diaries.add(new Diary());
-//        }
-//
-//        return diaries;
-//    }
-//    private AtomicInteger dbCount = new AtomicInteger(0);
-//    public int getDbCount() {
-//        return dbCount.get();
-//    }
 
 }
