@@ -12,6 +12,7 @@ public class KakaoProfile {
     private LocalDateTime connectedAt;
     private String email;
     private String nickname;
+    private String profileImage;
 
     public KakaoProfile(String jsonResponseBody){
         JsonParser parser = new JsonParser();
@@ -26,9 +27,29 @@ public class KakaoProfile {
 
         JsonObject properties = element.getAsJsonObject().get("properties").getAsJsonObject();
         this.nickname = properties.getAsJsonObject().get("nickname").getAsString();
+        this.profileImage = properties.getAsJsonObject().get("profile_image").getAsString(); // 프로필 이미지 URL 추출
 
         JsonObject kakaoAccount = element.getAsJsonObject().get("kakao_account").getAsJsonObject();
         this.email = kakaoAccount.getAsJsonObject().get("email").getAsString();
     }
 
+    public Integer getId() {
+        return id;
+    }
+
+    public LocalDateTime getConnectedAt() {
+        return connectedAt;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public String getProfileImage() {
+        return profileImage;
+    }
 }

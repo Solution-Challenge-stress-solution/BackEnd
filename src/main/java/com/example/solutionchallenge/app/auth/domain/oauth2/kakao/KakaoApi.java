@@ -95,19 +95,11 @@ public class KakaoApi {
             }
             System.out.println("response body : " + result);
 
-            //Gson 라이브러리로 JSON파싱
-            JsonParser parser = new JsonParser();
-            JsonElement element = parser.parse(result);
+            //KakaoProfile 객체 생성
+            KakaoProfile kakaoProfile = new KakaoProfile(result);
 
-            Long id = element.getAsJsonObject().get("id").getAsLong();
-            boolean hasEmail = element.getAsJsonObject().get("kakao_account").getAsJsonObject().get("has_email").getAsBoolean();
-            String email = "";
-            if (hasEmail) {
-                email = element.getAsJsonObject().get("kakao_account").getAsJsonObject().get("email").getAsString();
-            }
-
-            System.out.println("id : " + id);
-            System.out.println("email : " + email);
+            System.out.println("id : " + kakaoProfile.getId());
+            System.out.println("email : " + kakaoProfile.getEmail());
 
             br.close();
 

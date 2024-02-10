@@ -6,6 +6,8 @@ import com.example.solutionchallenge.app.auth.domain.google.GoogleOauth;
 import com.example.solutionchallenge.app.auth.domain.google.GoogleUser;
 import com.example.solutionchallenge.app.auth.domain.jwt.JwtTokenGenerator;
 import com.example.solutionchallenge.app.auth.domain.jwt.TokenInfoDto;
+import com.example.solutionchallenge.app.auth.domain.oauth2.kakao.KakaoApi;
+import com.example.solutionchallenge.app.auth.domain.oauth2.kakao.KakaoProfile;
 import com.example.solutionchallenge.app.user.domain.Status;
 import com.example.solutionchallenge.app.user.domain.Users;
 import com.example.solutionchallenge.app.user.repository.UsersRepository;
@@ -70,5 +72,32 @@ public class OAuthService {
         return tokenInfoDto;
     }
 
+    @Transactional
+    public TokenInfoDto kakaoOAuthLogin(String code) throws IOException {
+        // 카카오로부터 일회성 코드를 보내 액세스 토큰을 받아온다.
+        String kakaoToken = KakaoApi.getKaKaoAccessToken(code);
+
+        // 액세스 토큰을 다시 카카오로 보내 사용자 정보를 받아온다.
+        KakaoApi.createKakaoUser(kakaoToken);
+        // JSON 형식의 응답 객체를 KakaoProfile 객체로 변환한다.
+        KakaoProfile kakaoProfile = new KakaoProfile(kakaoToken);
+
+        Optional<Users> user = usersRepository.findByEmail(kakaoProfile.getEmail());
+        if (user.isEmpty()) {
+            Users newUser = Users.builder()
+                    .email(kakaoProfile.getEmail())
+                    .name(kakaoProfile.getNickname())
+                    .profileImage(kakaoProfile.getProfileImage())
+                    .build();
+            usersRepository.save(newUser);
+        } else {
+            user.get().update(kakaoProfile.getNickname(), kakaoProfile.getEmail(), kakaoProfile.getProfileImage());
+        }
+
+        Users users = usersRepository.findByEmail(kakaoProfile.getEmail()).get();
+        TokenInfoDto tokenInfoDto = jwtTokenGenerator.generate(users.getId());
+        users.updateToken(tokenInfoDto.getRefreshToken());
+        return tokenInfoDto;
+    }
 }
 
