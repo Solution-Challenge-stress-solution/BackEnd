@@ -28,12 +28,6 @@ public class SecurityConfig {
                 .formLogin(AbstractHttpConfigurer::disable)
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((authorizeRequest) -> authorizeRequest.anyRequest().permitAll());
-//                        .requestMatchers(new MvcRequestMatcher(introspector, "")).permitAll())
-//                .oauth2Login(oauth2Login ->
-//                        oauth2Login
-//                                .successHandler()
-//                                .userInfoEndpoint(userInfoEndpointConfig -> userInfoEndpointConfig.userService(customOAuth2UserService)));
-
         return http.build();
     }
 }
