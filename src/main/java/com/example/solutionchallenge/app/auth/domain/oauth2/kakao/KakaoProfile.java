@@ -15,6 +15,7 @@ public class KakaoProfile {
     private String profileImage;
 
     public KakaoProfile(String jsonResponseBody){
+        System.out.println("jsonResponseBody: " + jsonResponseBody);
         JsonParser parser = new JsonParser();
         JsonElement element = parser.parse(jsonResponseBody);
 
