@@ -27,6 +27,7 @@ public class OAuthService {
     private final GoogleOauth googleOauth;
     private final HttpServletResponse response;
     private final UsersRepository usersRepository;
+    private final KakaoApi kakaoApi;
 
     public void request(Constant.SocialLoginType socialLoginType) throws IOException {
         String redirectURL;
@@ -75,12 +76,11 @@ public class OAuthService {
     @Transactional
     public TokenInfoDto kakaoOAuthLogin(String code) throws IOException {
         // 카카오로부터 일회성 코드를 보내 액세스 토큰을 받아온다.
-        String kakaoToken = KakaoApi.getKaKaoAccessToken(code);
-
+        String kakaoToken = kakaoApi.getKaKaoAccessToken(code);
         // 액세스 토큰을 다시 카카오로 보내 사용자 정보를 받아온다.
-        KakaoApi.createKakaoUser(kakaoToken);
+        KakaoProfile kakaoProfile = kakaoApi.createKakaoUser(kakaoToken);
         // JSON 형식의 응답 객체를 KakaoProfile 객체로 변환한다.
-        KakaoProfile kakaoProfile = new KakaoProfile(kakaoToken);
+//        KakaoProfile kakaoProfile = new KakaoProfile(kakaoToken);
 
         Optional<Users> user = usersRepository.findByEmail(kakaoProfile.getEmail());
         if (user.isEmpty()) {

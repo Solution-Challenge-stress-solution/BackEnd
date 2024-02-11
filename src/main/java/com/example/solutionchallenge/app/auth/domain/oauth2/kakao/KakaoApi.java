@@ -11,13 +11,14 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import org.springframework.stereotype.Service;
 
+@Service
 public class KakaoApi {
-    public static String getKaKaoAccessToken(String code){
+    public String getKaKaoAccessToken(String code){
         String access_Token="";
         String refresh_Token ="";
         String reqURL = "https://kauth.kakao.com/oauth/token";
-
         try{
             URL url = new URL(reqURL);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -25,12 +26,14 @@ public class KakaoApi {
             //POST 요청을 위해 기본값이 false인 setDoOutput을 true로
             conn.setRequestMethod("POST");
             conn.setDoOutput(true);
+//            conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
 
             //POST 요청에 필요로 요구하는 파라미터 스트림을 통해 전송
             BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
             StringBuilder sb = new StringBuilder();
             sb.append("grant_type=authorization_code");
             sb.append("&client_id=3ea1d757fe280fdf11868685602c24d0");
+            sb.append("&client_secret=2DT26wlsCZjYTpbAMORK8KKqXX8HmgHd");
             sb.append("&redirect_uri=http://localhost:8080/login/oauth2/code/kakao");
             sb.append("&code=" + code);
             bw.write(sb.toString());
@@ -55,6 +58,7 @@ public class KakaoApi {
 
             access_Token = element.getAsJsonObject().get("access_token").getAsString();
             refresh_Token = element.getAsJsonObject().get("refresh_token").getAsString();
+            System.out.println("access: " + access_Token);
 
             System.out.println("access_token : " + access_Token);
             System.out.println("refresh_token : " + refresh_Token);
@@ -68,7 +72,7 @@ public class KakaoApi {
         return access_Token;
     }
 
-    public static void createKakaoUser(String token) throws ApiException {
+    public KakaoProfile createKakaoUser(String token) throws ApiException {
 
         String reqURL = "https://kapi.kakao.com/v2/user/me";
 
@@ -103,9 +107,12 @@ public class KakaoApi {
 
             br.close();
 
+            return kakaoProfile;
+
         } catch (IOException | java.io.IOException e) {
             e.printStackTrace();
         }
+        return null;
     }
 
     public void kakaoLogout(String accessToken) {

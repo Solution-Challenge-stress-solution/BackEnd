@@ -2,11 +2,9 @@ package com.example.solutionchallenge.app.auth.controller;
 
 import com.example.solutionchallenge.app.auth.domain.google.Constant.SocialLoginType;
 import com.example.solutionchallenge.app.auth.domain.jwt.TokenInfoDto;
-import com.example.solutionchallenge.app.auth.domain.oauth2.kakao.KakaoApi;
 import com.example.solutionchallenge.app.auth.service.OAuthService;
 import com.example.solutionchallenge.app.common.dto.response.ResponseDto;
 import com.example.solutionchallenge.app.common.dto.response.ResponseUtil;
-import com.example.solutionchallenge.app.common.exception.ApiException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -17,7 +15,6 @@ import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -36,10 +33,10 @@ public class OauthController {
 
     private final OAuthService oAuthService;
 
+    @Operation(summary = "카카오 로그인", description = "로그인 후 받은 code를 입력")
     @GetMapping("/kakao")
-    public void  kakaoCallback(@RequestParam String code) throws ApiException {
-        String access_Token = KakaoApi.getKaKaoAccessToken(code);
-        KakaoApi.createKakaoUser(access_Token);
+    public ResponseDto<TokenInfoDto> kakaoCallback(@Parameter(description = "Kakao authorizationCode") @RequestParam(name = "code") String code) throws IOException {
+        return ResponseUtil.SUCCESS("카카오 로그인에 성공하였습니다.", oAuthService.kakaoOAuthLogin(code));
     }
 
     @Operation(summary = "구글 로그인창 연결")
