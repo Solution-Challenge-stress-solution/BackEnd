@@ -27,7 +27,7 @@ import org.springframework.web.multipart.MultipartFile;
 })
 @Slf4j
 @RestController
-@RequestMapping("/api/stt")
+@RequestMapping("/stt")
 public class SttRestController {
 
     @Autowired
