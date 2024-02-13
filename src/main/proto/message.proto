@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package your_package;
+
+message Emotion {
+    string label = 1;
+    float probability = 2;
+}
+
+message PredictRequest {
+    bytes audio = 1;
+}
+
+message PredictReply {
+    repeated Emotion emotions = 1;
+}
+
+service MyMLModel {
+    rpc Predict(PredictRequest) returns (PredictReply) {}
+}
