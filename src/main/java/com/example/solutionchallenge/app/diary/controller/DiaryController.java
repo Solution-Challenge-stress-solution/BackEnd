@@ -33,7 +33,7 @@ import java.util.List;
 })
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/diaries")
+@RequestMapping("/diaries")
 public class DiaryController {
 
     private final DiaryService diaryService;
