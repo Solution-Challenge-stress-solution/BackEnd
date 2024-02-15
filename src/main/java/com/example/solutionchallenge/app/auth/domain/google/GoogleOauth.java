@@ -43,7 +43,6 @@ public class GoogleOauth implements SocialOauth {
 
         Map<String, Object> params = new HashMap<>();
         params.put("scope", GOOGLE_DATA_ACCESS_SCOPE);
-//        params.put("scope", "https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile");
         params.put("response_type", "code");
         params.put("client_id", GOOGLE_SNS_CLIENT_ID);
         params.put("redirect_uri", GOOGLE_SNS_CALLBACK_URL);

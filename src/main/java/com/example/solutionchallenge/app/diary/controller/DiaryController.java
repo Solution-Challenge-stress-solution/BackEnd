@@ -13,11 +13,13 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -39,9 +41,9 @@ public class DiaryController {
     private final DiaryService diaryService;
 
     @Operation(summary = "일기 저장", description = "일기 생성 API, 오디오파일 확장자는 .flac")
-    @PostMapping("/activities/{activityId}") //415 에러 발생 시 @RequestBody 지워서 ㄱㄱ
+    @PostMapping(value = "/activities/{activityId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE) //415 에러 발생 시 @RequestBody 지워서 ㄱㄱ
     public ResponseDto<Long> save(HttpServletRequest request,
-                                  @RequestPart(value = "audioFile", required = false) MultipartFile audioFile,
+                                  @RequestParam(value = "audioFile") MultipartFile audioFile,
                                   DiarySaveRequestDto requestDto,
                                   @Parameter(description = "추천 활동 인덱스") @PathVariable("activityId") Long activityId) {
         Long diaryId = diaryService.save(request.getHeader("Authorization"), audioFile, requestDto, activityId);

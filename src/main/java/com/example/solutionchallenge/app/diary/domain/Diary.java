@@ -1,6 +1,7 @@
 package com.example.solutionchallenge.app.diary.domain;
 
 import com.example.solutionchallenge.app.recommendedActivity.domain.RecommendedActivity;
+import com.example.solutionchallenge.app.stressLevel.domain.StressLevel;
 import com.example.solutionchallenge.app.user.domain.Users;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -11,6 +12,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,7 +28,6 @@ public class Diary extends BaseTimeEntity {
 
     private String content;
     private String audioFileUrl;
-    private String stressLevel;
 
     @Enumerated(EnumType.STRING)
     private DiaryStatus status;
@@ -39,6 +40,10 @@ public class Diary extends BaseTimeEntity {
     @JoinColumn(name = "recommended_activity_id")
     private RecommendedActivity recommendedActivity;
 
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "stress_level_id")
+    private StressLevel stressLevel;
+
     public void setUsers(Users users) {
         this.users = users;
         users.getDiaryList().add(this);
@@ -49,14 +54,18 @@ public class Diary extends BaseTimeEntity {
         recommendedActivity.getDiaryList().add(this);
     }
 
+    public void setStressLevel(StressLevel stressLevel) {
+        this.stressLevel = stressLevel;
+    }
+
     @Builder
-    public Diary(String content, String audioFileUrl, String stressLevel, DiaryStatus status, Users users,
-                 RecommendedActivity recommendedActivity) {
+    public Diary(String content, String audioFileUrl, DiaryStatus status, Users users,
+                 RecommendedActivity recommendedActivity, StressLevel stressLevel) {
         this.content = content;
         this.audioFileUrl = audioFileUrl;
-        this.stressLevel = stressLevel;
         this.status = status;
         this.setUsers(users);
         this.setRecommendedActivity(recommendedActivity);
+        this.setStressLevel(stressLevel);
     }
 }
