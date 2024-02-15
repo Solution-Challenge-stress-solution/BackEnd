@@ -25,7 +25,7 @@ import java.util.Map;
 public class EmotionController {
     private static final Logger logger = LoggerFactory.getLogger(EmotionController.class);
 
-    @PostMapping("/predict")
+    @PostMapping("/prediction")
     public ResponseEntity<Map<String, String>> predict(@RequestParam("audioFile") MultipartFile audioFile) {
         logger.info("Received request to analyze emotion");
 
