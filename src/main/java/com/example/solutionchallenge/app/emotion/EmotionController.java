@@ -1,7 +1,10 @@
 package com.example.solutionchallenge.app.emotion;
 
+import io.jsonwebtoken.io.IOException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import your_package.Message;
 import your_package.MyMLModelGrpc;
 import your_package.Message.PredictRequest;
@@ -11,7 +14,6 @@ import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,8 +26,18 @@ public class EmotionController {
     private static final Logger logger = LoggerFactory.getLogger(EmotionController.class);
 
     @PostMapping("/predict")
-    public ResponseEntity<Map<String, Double>> predict(@RequestBody byte[] audioBytes) {
+    public ResponseEntity<Map<String, Double>> predict(@RequestParam("audioFile") MultipartFile audioFile) {
         logger.info("Received request to analyze emotion");
+
+        byte[] audioBytes = null;
+        try {
+            audioBytes = audioFile.getBytes();
+        } catch (IOException e) {
+            logger.error("Error occurred while reading audio file: ", e);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        } catch (java.io.IOException e) {
+            throw new RuntimeException(e);
+        }
 
         // 머신러닝 서버에 연결
         ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 65534)
@@ -61,5 +73,6 @@ public class EmotionController {
         return ResponseEntity.ok(resultMap);
     }
 }
+
 
 
