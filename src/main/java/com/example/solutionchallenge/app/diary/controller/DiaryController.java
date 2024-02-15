@@ -51,11 +51,11 @@ public class DiaryController {
         return ResponseUtil.SUCCESS("일기 저장에 성공하였습니다.", diaryId);
     }
 
-    @Operation(summary = "일기 조회", description = "일기 조회 API")
-    @GetMapping("/{diaryId}")
+    @Operation(summary = "일기 조회", description = "일기 조회 API, 생성 날짜는 2024-02-09 이런 형식으로 요청해야함")
+    @GetMapping("/{diaryDate}")
     public ResponseDto<DiaryResponseDto> findById(HttpServletRequest request,
-                                                  @Parameter(description = "일기 인덱스") @PathVariable("diaryId") Long diaryId) {
-        return ResponseUtil.SUCCESS("일기 조회에 성공하였습니다.", diaryService.findById(request.getHeader("Authorization"), diaryId));
+                                                  @Parameter(description = "일기 생성 날짜") @PathVariable("diaryDate") String diaryDate) {
+        return ResponseUtil.SUCCESS("일기 조회에 성공하였습니다.", diaryService.findByCreatedDate(request.getHeader("Authorization"), diaryDate));
     }
 
     @Operation(summary = "일기 삭제", description = "일기 삭제 API")

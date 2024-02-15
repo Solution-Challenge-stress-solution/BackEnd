@@ -15,6 +15,9 @@ import com.google.cloud.storage.BlobInfo;
 import com.google.cloud.storage.Storage;
 import com.google.cloud.storage.StorageOptions;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -78,12 +81,20 @@ public class DiaryService {
         return 0L;
     }
 
-    public DiaryResponseDto findById(String accessToken, Long diaryId) {
-        getUserByToken(accessToken);
-        Diary diary = diaryRepository.findById(diaryId).orElseThrow(
-                () -> new IllegalArgumentException("해당 일기가 없습니다. id=" + diaryId));
+    public DiaryResponseDto findByCreatedDate(String accessToken, String diaryDate) {
+        Users user = getUserByToken(accessToken);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate date = LocalDate.parse(diaryDate, formatter);
+
+        LocalDateTime startDateTime = date.atStartOfDay();
+        LocalDateTime endDateTime = startDateTime.plusDays(1);
+
+        Optional<Diary> diary = diaryRepository.findDiaryByUsersAndCreatedDateBetween(user, startDateTime, endDateTime);
+        if (diary.isEmpty()) {
+            throw new IllegalArgumentException("해당 일기가 없습니다. createdDate=" + date);
+        }
         DiaryResponseDto diaryResponseDto = DiaryResponseDto.builder()
-                .diary(diary).recommendedActivity(diary.getRecommendedActivity()).build();
+                .diary(diary.get()).recommendedActivity(diary.get().getRecommendedActivity()).build();
         return diaryResponseDto;
     }
 
@@ -100,6 +111,5 @@ public class DiaryService {
             throw new RuntimeException("토큰에 해당하는 멤버가 없습니다.");
         }
     }
-
 
 }
