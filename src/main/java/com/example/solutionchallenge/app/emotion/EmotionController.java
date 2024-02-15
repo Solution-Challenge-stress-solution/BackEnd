@@ -1,8 +1,14 @@
 package com.example.solutionchallenge.app.emotion;
 
 import io.jsonwebtoken.io.IOException;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import your_package.Message;
@@ -21,11 +27,18 @@ import org.slf4j.LoggerFactory;
 import java.util.HashMap;
 import java.util.Map;
 
+@Tag(name = "감정 분석", description = "감정 분석 API")
+@ApiResponses({
+        @ApiResponse(responseCode = "200", description = "API 정상 작동"),
+})
 @RestController
+@RequestMapping("/emotion")
 public class EmotionController {
     private static final Logger logger = LoggerFactory.getLogger(EmotionController.class);
 
-    @PostMapping("/prediction")
+
+    @Operation(summary = "감정 분석", description = "오디오파일 확장자는 .flac")
+    @PostMapping(value = "/prediction", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Map<String, String>> predict(@RequestParam("audioFile") MultipartFile audioFile) {
         logger.info("Received request to analyze emotion");
 
