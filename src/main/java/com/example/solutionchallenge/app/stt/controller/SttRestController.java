@@ -20,10 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Tag(name = "Speech-to-Text", description = "STT API")
 @ApiResponses({
-        @ApiResponse(responseCode = "200", description = "API 정상 작동"),
-        @ApiResponse(responseCode = "400", description = "BAD REQUEST"),
-        @ApiResponse(responseCode = "404", description = "NOT FOUND"),
-        @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
+        @ApiResponse(responseCode = "200", description = "API 정상 작동")
 })
 @Slf4j
 @RestController

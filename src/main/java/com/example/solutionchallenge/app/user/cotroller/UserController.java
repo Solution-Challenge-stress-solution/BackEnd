@@ -21,10 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @Tag(name = "유저", description = "유저 API")
 @ApiResponses({
-        @ApiResponse(responseCode = "200", description = "API 정상 작동"),
-        @ApiResponse(responseCode = "400", description = "BAD REQUEST"),
-        @ApiResponse(responseCode = "404", description = "NOT FOUND"),
-        @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
+        @ApiResponse(responseCode = "200", description = "API 정상 작동")
 })
 @RestController
 @RequiredArgsConstructor
