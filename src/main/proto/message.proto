@@ -5,6 +5,8 @@ package your_package;
 message Emotion {
     string label = 1;
     float probability = 2;
+    string emotion_index = 3;
+
 }
 
 message PredictRequest {
@@ -14,6 +16,7 @@ message PredictRequest {
 message PredictReply {
     repeated Emotion emotions = 1;
     Emotion max_emotion = 2;
+    string stress_index = 3;
 }
 
 service MyMLModel {

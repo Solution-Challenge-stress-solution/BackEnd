@@ -26,7 +26,7 @@ public class EmotionController {
     private static final Logger logger = LoggerFactory.getLogger(EmotionController.class);
 
     @PostMapping("/predict")
-    public ResponseEntity<Map<String, Double>> predict(@RequestParam("audioFile") MultipartFile audioFile) {
+    public ResponseEntity<Map<String, String>> predict(@RequestParam("audioFile") MultipartFile audioFile) {
         logger.info("Received request to analyze emotion");
 
         byte[] audioBytes = null;
@@ -63,16 +63,20 @@ public class EmotionController {
         }
 
         // gRPC 응답을 Map으로 변환
-        Map<String, Double> resultMap = new HashMap<>();
+        Map<String, String> resultMap = new HashMap<>();
         if (response != null) {
             for (Message.Emotion emotion : response.getEmotionsList()) {
-                resultMap.put(emotion.getLabel(), Double.valueOf(emotion.getProbability()));
+                resultMap.put(emotion.getLabel(), emotion.getEmotionIndex());  // getProbabilityPercentage() 대신 getEmotionIndex() 사용
             }
+            resultMap.put("max_emotion", response.getMaxEmotion().getLabel());
+            resultMap.put("stress_index", response.getStressIndex());
         }
 
         return ResponseEntity.ok(resultMap);
     }
 }
+
+
 
 
 
