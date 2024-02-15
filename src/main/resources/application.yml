@@ -66,18 +66,10 @@ spring:
     host:localhost
     port:6379
 
-kakao:
-  api_key: 3ea1d757fe280fdf11868685602c24d0
-  redirect_uri: http://localhost:8080/login/oauth2/code/kakao
-
-
-mybatis:
-  mapper-locations: classpath:mapper/*.xml
-
 grpc:
   client:
     test:
-      address: static://0.0.0.0:50010
+      address: static://localhost:65534
       enableKeepAlive: true
       keepAliveWithoutCalls: true
       negotiationType: plaintext
