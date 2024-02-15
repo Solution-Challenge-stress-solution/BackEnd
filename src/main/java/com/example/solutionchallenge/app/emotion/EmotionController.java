@@ -29,7 +29,7 @@ import java.util.Map;
 
 @Tag(name = "감정 분석", description = "감정 분석 API")
 @ApiResponses({
-        @ApiResponse(responseCode = "200", description = "API 정상 작동"),
+        @ApiResponse(responseCode = "200", description = "API 정상 작동")
 })
 @RestController
 @RequestMapping("/emotion")
