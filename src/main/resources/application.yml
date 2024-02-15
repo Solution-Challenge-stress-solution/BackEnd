@@ -5,6 +5,11 @@ spring:
   profiles:
     active: local
 
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 30MB
+
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://34.64.189.204:3306/gdscDB?serverTimezone=Asia/Seoul
