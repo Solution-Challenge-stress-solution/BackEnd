@@ -48,8 +48,9 @@ public class AnalysisService {
         }
 
         // 머신러닝 서버에 연결
-        ManagedChannel channel = ManagedChannelBuilder.forAddress("34.64.90.112", 12345)
-                .usePlaintext()
+
+        ManagedChannel channel = ManagedChannelBuilder.forTarget("dns:///ml-y5v4w7qczq-du.a.run.app:443")
+                .useTransportSecurity()
                 .build();
 
         // 머신러닝 서버에 gRPC 요청
