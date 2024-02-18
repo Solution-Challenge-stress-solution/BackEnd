@@ -3,6 +3,7 @@ package com.example.solutionchallenge.app.diary.domain;
 import com.example.solutionchallenge.app.recommendedActivity.domain.RecommendedActivity;
 import com.example.solutionchallenge.app.analysis.domain.StressLevel;
 import com.example.solutionchallenge.app.user.domain.Users;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -36,12 +37,7 @@ public class Diary extends BaseTimeEntity {
     @JoinColumn(name = "user_id")
     private Users users;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "recommended_activity_id")
-    private RecommendedActivity recommendedActivity;
-
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "stress_level_id")
+    @OneToOne(mappedBy = "diary", cascade = CascadeType.ALL)
     private StressLevel stressLevel;
 
     public void setUsers(Users users) {
@@ -49,23 +45,11 @@ public class Diary extends BaseTimeEntity {
         users.getDiaryList().add(this);
     }
 
-    public void setRecommendedActivity(RecommendedActivity recommendedActivity) {
-        this.recommendedActivity = recommendedActivity;
-        recommendedActivity.getDiaryList().add(this);
-    }
-
-    public void setStressLevel(StressLevel stressLevel) {
-        this.stressLevel = stressLevel;
-    }
-
     @Builder
-    public Diary(String content, String audioFileUrl, DiaryStatus status, Users users,
-                 RecommendedActivity recommendedActivity, StressLevel stressLevel) {
+    public Diary(String content, String audioFileUrl, DiaryStatus status, Users users) {
         this.content = content;
         this.audioFileUrl = audioFileUrl;
         this.status = status;
         this.setUsers(users);
-        this.setRecommendedActivity(recommendedActivity);
-        this.setStressLevel(stressLevel);
     }
 }

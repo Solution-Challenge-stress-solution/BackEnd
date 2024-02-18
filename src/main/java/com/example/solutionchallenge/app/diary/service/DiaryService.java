@@ -40,7 +40,6 @@ public class DiaryService {
 
     private final DiaryRepository diaryRepository;
     private final UsersRepository usersRepository;
-    private final RecommendedActivityRepository activityRepository;
     private final StressLevelRepository stressLevelRepository;
     private final JwtTokenProvider jwtTokenProvider;
 
@@ -51,12 +50,8 @@ public class DiaryService {
     @Value("${spring.cloud.gcp.storage.project-id}")
     private String projectId;
 
-    public Long save(String accessToken, MultipartFile audioFile, DiarySaveRequestDto requestDto, Long activityId) {
+    public Long save(String accessToken, MultipartFile audioFile, DiarySaveRequestDto requestDto) {
         Users user = getUserByToken(accessToken);
-
-        RecommendedActivity recommendedActivity = activityRepository.findById(activityId).orElseThrow(
-                () -> new IllegalArgumentException("해당 추천 활동이 없습니다. id=" + activityId));
-
         try {
             ClassPathResource resource = new ClassPathResource("strecording-upload.json");
             GoogleCredentials credentials = GoogleCredentials.fromStream(resource.getInputStream());
@@ -69,19 +64,7 @@ public class DiaryService {
             BlobInfo blobInfo = storage.create(BlobInfo.newBuilder(bucketName, uuid).setContentType(extension).build(), audioFile.getBytes());
             String audioUrl = "https://storage.googleapis.com/" + bucketName + "/" + uuid;
 
-            StressLevel stressLevel = StressLevel.builder()
-                    .angry(requestDto.getAngry())
-                    .sadness(requestDto.getSadness())
-                    .disgusting(requestDto.getDisgusting())
-                    .fear(requestDto.getFear())
-                    .happiness(requestDto.getHappiness())
-                    .stress_point(requestDto.getStress_point())
-                    .max_emotion(requestDto.getMax_emotion())
-                    .build();
-
-            StressLevel stressEntity = stressLevelRepository.save(stressLevel);
-
-            Long diaryId = diaryRepository.save(requestDto.toEntity(requestDto.getContent(), user, audioUrl, recommendedActivity, stressEntity)).getId();
+            Long diaryId = diaryRepository.save(requestDto.toEntity(requestDto.getContent(), user, audioUrl)).getId();
             return diaryId;
         } catch (IOException e) {
             e.printStackTrace();
@@ -101,10 +84,13 @@ public class DiaryService {
         if (diary.isEmpty()) {
             throw new IllegalArgumentException("해당 일기가 없습니다. createdDate=" + date);
         }
+        Optional<StressLevel> stressLevel = stressLevelRepository.findByDiary(diary.get());
+        if (stressLevel.isEmpty()) {
+            throw new IllegalArgumentException("해당 스트레스 지수가 없습니다. diaryId=" + diary.get().getId());
+        }
         DiaryResponseDto diaryResponseDto = DiaryResponseDto.builder()
                 .diary(diary.get())
-                .recommendedActivity(diary.get().getRecommendedActivity())
-                .stressLevel(diary.get().getStressLevel())
+                .stressLevel(stressLevel.get())
                 .build();
         return diaryResponseDto;
     }
