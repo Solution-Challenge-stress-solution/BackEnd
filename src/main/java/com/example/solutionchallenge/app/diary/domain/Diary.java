@@ -37,6 +37,10 @@ public class Diary extends BaseTimeEntity {
     @JoinColumn(name = "user_id")
     private Users users;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "activity_id")
+    private RecommendedActivity recommendedActivity;
+
     @OneToOne(mappedBy = "diary", cascade = CascadeType.ALL)
     private StressLevel stressLevel;
 
@@ -45,11 +49,16 @@ public class Diary extends BaseTimeEntity {
         users.getDiaryList().add(this);
     }
 
+    public void setRecommendedActivity(RecommendedActivity recommendedActivity) {
+        this.recommendedActivity = recommendedActivity;
+    }
+
     @Builder
-    public Diary(String content, String audioFileUrl, DiaryStatus status, Users users) {
+    public Diary(String content, String audioFileUrl, DiaryStatus status, Users users, RecommendedActivity recommendedActivity) {
         this.content = content;
         this.audioFileUrl = audioFileUrl;
         this.status = status;
         this.setUsers(users);
+        this.setRecommendedActivity(recommendedActivity);
     }
 }

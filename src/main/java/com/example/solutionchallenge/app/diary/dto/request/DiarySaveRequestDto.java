@@ -19,12 +19,13 @@ public class DiarySaveRequestDto {
     @Schema(description = "일기 내용", example = "오늘 하루도 힘들었다.~~")
     private String content;
 
-    public Diary toEntity(String content, Users users, String audioFileUrl) {
+    public Diary toEntity(String content, Users users, RecommendedActivity recommendedActivity, String audioFileUrl) {
         return Diary.builder()
                 .content(content)
                 .audioFileUrl(audioFileUrl)
                 .status(DiaryStatus.CREATED)
                 .users(users)
+                .recommendedActivity(recommendedActivity)
                 .build();
     }
 
