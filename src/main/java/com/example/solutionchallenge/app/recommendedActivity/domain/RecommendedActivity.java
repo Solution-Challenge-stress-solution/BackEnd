@@ -25,8 +25,4 @@ public class RecommendedActivity {
     private String title;
     private String content;
 
-    @OneToMany(mappedBy = "recommendedActivity", cascade = CascadeType.ALL)
-    private List<Diary> diaryList = new ArrayList<>();
-
-
 }

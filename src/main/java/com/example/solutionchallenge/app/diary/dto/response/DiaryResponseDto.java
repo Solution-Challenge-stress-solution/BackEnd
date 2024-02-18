@@ -1,7 +1,6 @@
 package com.example.solutionchallenge.app.diary.dto.response;
 
 import com.example.solutionchallenge.app.diary.domain.Diary;
-import com.example.solutionchallenge.app.recommendedActivity.domain.RecommendedActivity;
 import com.example.solutionchallenge.app.stressLevel.domain.StressLevel;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
@@ -40,17 +39,8 @@ public class DiaryResponseDto {
     @Schema(description = "최고 감정")
     private String max_emotion;
 
-    @Schema(description = "추천 활동 이미지 url")
-    private String activityImageUrl;
-
-    @Schema(description = "추천 활동 이름")
-    private String activityTitle;
-
-    @Schema(description = "추천 활동")
-    private String activityContent;
-
     @Builder
-    public DiaryResponseDto(Diary diary, RecommendedActivity recommendedActivity, StressLevel stressLevel) {
+    public DiaryResponseDto(Diary diary, StressLevel stressLevel) {
         this.diaryId = diary.getId();
         this.content = diary.getContent();
         this.audioFileUrl = diary.getAudioFileUrl();
@@ -61,8 +51,5 @@ public class DiaryResponseDto {
         this.happiness = stressLevel.getHappiness();
         this.stress_point = stressLevel.getStress_point();
         this.max_emotion = stressLevel.getMax_emotion();
-        this.activityImageUrl = recommendedActivity.getImage();
-        this.activityTitle = recommendedActivity.getTitle();
-        this.activityContent = recommendedActivity.getContent();
     }
 }
