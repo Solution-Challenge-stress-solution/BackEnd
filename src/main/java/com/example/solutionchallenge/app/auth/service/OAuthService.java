@@ -99,5 +99,29 @@ public class OAuthService {
         users.updateToken(tokenInfoDto.getRefreshToken());
         return tokenInfoDto;
     }
+
+    public TokenInfoDto oAuthLoginwithAccessToken(String accessToken) throws IOException{
+        //액세스 토큰을 다시 구글로 보내 구글에 저장된 사용자 정보가 담긴 응답 객체를 받아온다.
+        ResponseEntity<String> userInfoResponse = googleOauth.requestUserInfoOnlyAccessToken(accessToken);
+        //다시 JSON 형식의 응답 객체를 자바 객체로 역직렬화한다.
+        GoogleUser googleUser = googleOauth.getUserInfo(userInfoResponse);
+
+        Optional<Users> user = usersRepository.findByEmail(googleUser.getEmail());
+        if (user.isEmpty()) {
+            Users newUser = Users.builder()
+                    .email(googleUser.email)
+                    .name(googleUser.getName())
+                    .profileImage(googleUser.getPicture())
+                    .build();
+            usersRepository.save(newUser);
+        } else {
+            user.get().update(googleUser.getName(), googleUser.getEmail(), googleUser.getPicture());
+        }
+
+        Users users = usersRepository.findByEmail(googleUser.getEmail()).get();
+        TokenInfoDto tokenInfoDto = jwtTokenGenerator.generate(users.getId());
+        users.updateToken(tokenInfoDto.getRefreshToken());
+        return tokenInfoDto;
+    }
 }
 

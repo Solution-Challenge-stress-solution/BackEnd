@@ -24,10 +24,8 @@ public class RecommendedActivityService {
 //    }
 
     public ActivityResponseDto findById(Long activityId) {
-        System.out.println("22222222222222222222222222");
         RecommendedActivity recommendedActivity = recommendedActivityRepository.findById(activityId).orElseThrow(
                 () -> new IllegalArgumentException("해당 추천 활동이 없습니다. id=" + activityId));
-        System.out.println("333333333333333333333333");
         ActivityResponseDto activityResponseDto = ActivityResponseDto.builder().recommendedActivity(recommendedActivity).build();
         return activityResponseDto;
     }
