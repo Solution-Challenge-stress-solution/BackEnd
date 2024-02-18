@@ -1,7 +1,7 @@
 package com.example.solutionchallenge.app.diary.domain;
 
 import com.example.solutionchallenge.app.recommendedActivity.domain.RecommendedActivity;
-import com.example.solutionchallenge.app.stressLevel.domain.StressLevel;
+import com.example.solutionchallenge.app.analysis.domain.StressLevel;
 import com.example.solutionchallenge.app.user.domain.Users;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;

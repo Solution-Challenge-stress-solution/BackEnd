@@ -2,7 +2,7 @@ package com.example.solutionchallenge.app.diary.dto.response;
 
 import com.example.solutionchallenge.app.diary.domain.Diary;
 import com.example.solutionchallenge.app.recommendedActivity.domain.RecommendedActivity;
-import com.example.solutionchallenge.app.stressLevel.domain.StressLevel;
+import com.example.solutionchallenge.app.analysis.domain.StressLevel;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Getter;

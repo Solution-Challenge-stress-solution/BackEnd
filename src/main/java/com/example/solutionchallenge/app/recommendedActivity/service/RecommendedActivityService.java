@@ -1,6 +1,6 @@
 package com.example.solutionchallenge.app.recommendedActivity.service;
 
-import com.example.solutionchallenge.app.recommendedActivity.RecommendedActivityRepository;
+import com.example.solutionchallenge.app.recommendedActivity.repository.RecommendedActivityRepository;
 import com.example.solutionchallenge.app.recommendedActivity.domain.RecommendedActivity;
 import com.example.solutionchallenge.app.recommendedActivity.dto.ActivityResponseDto;
 import lombok.RequiredArgsConstructor;

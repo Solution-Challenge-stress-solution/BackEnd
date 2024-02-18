@@ -6,10 +6,10 @@ import com.example.solutionchallenge.app.diary.domain.Diary;
 import com.example.solutionchallenge.app.diary.dto.request.DiarySaveRequestDto;
 import com.example.solutionchallenge.app.diary.repository.DiaryRepository;
 
-import com.example.solutionchallenge.app.recommendedActivity.RecommendedActivityRepository;
+import com.example.solutionchallenge.app.recommendedActivity.repository.RecommendedActivityRepository;
 import com.example.solutionchallenge.app.recommendedActivity.domain.RecommendedActivity;
-import com.example.solutionchallenge.app.stressLevel.domain.StressLevel;
-import com.example.solutionchallenge.app.stressLevel.repository.StressLevelRepository;
+import com.example.solutionchallenge.app.analysis.domain.StressLevel;
+import com.example.solutionchallenge.app.analysis.repository.StressLevelRepository;
 import com.example.solutionchallenge.app.user.domain.Users;
 import com.example.solutionchallenge.app.user.repository.UsersRepository;
 import com.google.auth.oauth2.GoogleCredentials;
@@ -20,18 +20,13 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.concurrent.atomic.AtomicInteger;
 
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
