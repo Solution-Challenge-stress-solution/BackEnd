@@ -52,4 +52,10 @@ public class OauthController {
         return ResponseUtil.SUCCESS("구글 로그인에 성공하였습니다.", oAuthService.oAuthLogin(SocialLoginType.GOOGLE, decode));
     }
 
+    @Operation(summary = "구글 로그인(AccessToekn 전용)", description = "accessToken으로 정보 가져오기")
+    @GetMapping("/google/access")
+    public ResponseDto<TokenInfoDto> accessGoogle(@Parameter(description = "Google AccessToken") @RequestParam(name = "accessToken") String accessToken) throws IOException {
+        return ResponseUtil.SUCCESS("구글 로그인에 성공하였습니다.", oAuthService.oAuthLoginwithAccessToken(accessToken));
+    }
+
 }

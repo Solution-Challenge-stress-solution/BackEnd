@@ -99,6 +99,20 @@ public class GoogleOauth implements SocialOauth {
         return response;
     }
 
+    public ResponseEntity<String> requestUserInfoOnlyAccessToken(String accessToken) {
+        String GOOGLE_USERINFO_REQUEST_URL="https://www.googleapis.com/oauth2/v1/userinfo";
+
+        //header에 accessToken을 담는다.
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization","Bearer "+accessToken);
+
+        //HttpEntity를 하나 생성해 헤더를 담아서 restTemplate으로 구글과 통신하게 된다.
+        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity(headers);
+        ResponseEntity<String> response = restTemplate.exchange(GOOGLE_USERINFO_REQUEST_URL, HttpMethod.GET,request,String.class);
+        System.out.println("response.getBody() = " + response.getBody());
+        return response;
+    }
+
     public GoogleUser getUserInfo(ResponseEntity<String> userInfoRes) throws JsonProcessingException{
         GoogleUser googleUser=objectMapper.readValue(userInfoRes.getBody(),GoogleUser.class);
         return googleUser;
