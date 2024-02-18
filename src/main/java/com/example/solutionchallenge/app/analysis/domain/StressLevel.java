@@ -1,4 +1,4 @@
-package com.example.solutionchallenge.app.stressLevel.domain;
+package com.example.solutionchallenge.app.analysis.domain;
 
 import com.example.solutionchallenge.app.diary.domain.Diary;
 import jakarta.persistence.Entity;

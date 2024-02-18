@@ -1,7 +1,7 @@
-package com.example.solutionchallenge.app.stressLevel.repository;
+package com.example.solutionchallenge.app.analysis.repository;
 
+import com.example.solutionchallenge.app.analysis.domain.StressLevel;
 import com.example.solutionchallenge.app.diary.domain.Diary;
-import com.example.solutionchallenge.app.stressLevel.domain.StressLevel;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 

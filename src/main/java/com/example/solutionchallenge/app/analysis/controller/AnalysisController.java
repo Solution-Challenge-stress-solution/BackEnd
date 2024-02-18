@@ -1,4 +1,4 @@
-package com.example.solutionchallenge.app.emotion;
+package com.example.solutionchallenge.app.analysis.controller;
 
 import io.jsonwebtoken.io.IOException;
 import io.swagger.v3.oas.annotations.Operation;
@@ -33,8 +33,8 @@ import java.util.Map;
 })
 @RestController
 @RequestMapping("/emotion")
-public class EmotionController {
-    private static final Logger logger = LoggerFactory.getLogger(EmotionController.class);
+public class AnalysisController {
+    private static final Logger logger = LoggerFactory.getLogger(AnalysisController.class);
 
 
     @Operation(summary = "감정 분석", description = "오디오파일 확장자는 .flac")
