@@ -48,6 +48,7 @@ public class AnalysisService {
         }
 
         // 머신러닝 서버에 연결
+
         ManagedChannel channel = ManagedChannelBuilder.forTarget("dns:///ml-y5v4w7qczq-du.a.run.app:443")
                 .useTransportSecurity()
                 .build();
