@@ -6,6 +6,7 @@ import com.example.solutionchallenge.app.diary.domain.Diary;
 import com.example.solutionchallenge.app.diary.dto.request.DiarySaveRequestDto;
 import com.example.solutionchallenge.app.diary.repository.DiaryRepository;
 
+import com.example.solutionchallenge.app.recommendedActivity.dto.ActivityResponseDto;
 import com.example.solutionchallenge.app.recommendedActivity.repository.RecommendedActivityRepository;
 import com.example.solutionchallenge.app.recommendedActivity.domain.RecommendedActivity;
 import com.example.solutionchallenge.app.analysis.domain.StressLevel;
@@ -40,6 +41,7 @@ public class DiaryService {
 
     private final DiaryRepository diaryRepository;
     private final UsersRepository usersRepository;
+    private final RecommendedActivityRepository recommendedActivityRepository;
     private final StressLevelRepository stressLevelRepository;
     private final JwtTokenProvider jwtTokenProvider;
 
@@ -64,7 +66,13 @@ public class DiaryService {
             BlobInfo blobInfo = storage.create(BlobInfo.newBuilder(bucketName, uuid).setContentType(extension).build(), audioFile.getBytes());
             String audioUrl = "https://storage.googleapis.com/" + bucketName + "/" + uuid;
 
-            Long diaryId = diaryRepository.save(requestDto.toEntity(requestDto.getContent(), user, audioUrl)).getId();
+            double dValue = Math.random();
+            long randomId = (long) ((dValue * 20) + 1);
+            RecommendedActivity recommendedActivity = recommendedActivityRepository.findById(randomId).orElseThrow(
+                    () -> new IllegalArgumentException("해당 추천 활동이 없습니다. id=" + randomId));
+
+
+            Long diaryId = diaryRepository.save(requestDto.toEntity(requestDto.getContent(), user, recommendedActivity, audioUrl)).getId();
             return diaryId;
         } catch (IOException e) {
             e.printStackTrace();
@@ -91,6 +99,7 @@ public class DiaryService {
         DiaryResponseDto diaryResponseDto = DiaryResponseDto.builder()
                 .diary(diary.get())
                 .stressLevel(stressLevel.get())
+                .activityId(diary.get().getRecommendedActivity().getId())
                 .build();
         return diaryResponseDto;
     }

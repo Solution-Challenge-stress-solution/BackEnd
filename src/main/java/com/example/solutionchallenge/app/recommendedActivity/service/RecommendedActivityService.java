@@ -14,11 +14,20 @@ public class RecommendedActivityService {
 
     private final RecommendedActivityRepository recommendedActivityRepository;
 
-    public ActivityResponseDto findRandom() {
-        double dValue = Math.random();
-        long randomId = (long) ((dValue * 20) + 1);
-        RecommendedActivity recommendedActivity = recommendedActivityRepository.findById(randomId).orElseThrow(
-                () -> new IllegalArgumentException("해당 추천 활동이 없습니다. id=" + randomId));
+//    public ActivityResponseDto findRandom() {
+//        double dValue = Math.random();
+//        long randomId = (long) ((dValue * 20) + 1);
+//        RecommendedActivity recommendedActivity = recommendedActivityRepository.findById(randomId).orElseThrow(
+//                () -> new IllegalArgumentException("해당 추천 활동이 없습니다. id=" + randomId));
+//        ActivityResponseDto activityResponseDto = ActivityResponseDto.builder().recommendedActivity(recommendedActivity).build();
+//        return activityResponseDto;
+//    }
+
+    public ActivityResponseDto findById(Long activityId) {
+        System.out.println("22222222222222222222222222");
+        RecommendedActivity recommendedActivity = recommendedActivityRepository.findById(activityId).orElseThrow(
+                () -> new IllegalArgumentException("해당 추천 활동이 없습니다. id=" + activityId));
+        System.out.println("333333333333333333333333");
         ActivityResponseDto activityResponseDto = ActivityResponseDto.builder().recommendedActivity(recommendedActivity).build();
         return activityResponseDto;
     }
