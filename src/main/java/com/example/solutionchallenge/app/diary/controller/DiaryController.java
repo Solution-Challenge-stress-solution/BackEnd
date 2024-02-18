@@ -38,12 +38,11 @@ public class DiaryController {
     private final DiaryService diaryService;
 
     @Operation(summary = "일기 저장", description = "일기 생성 API, 오디오파일 확장자는 .flac")
-    @PostMapping(value = "/activities/{activityId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE) //415 에러 발생 시 @RequestBody 지워서 ㄱㄱ
+    @PostMapping(value = "", consumes = MediaType.MULTIPART_FORM_DATA_VALUE) //415 에러 발생 시 @RequestBody 지워서 ㄱㄱ
     public ResponseDto<Long> save(HttpServletRequest request,
                                   @RequestParam(value = "audioFile") MultipartFile audioFile,
-                                  DiarySaveRequestDto requestDto,
-                                  @Parameter(description = "추천 활동 인덱스") @PathVariable("activityId") Long activityId) {
-        Long diaryId = diaryService.save(request.getHeader("Authorization"), audioFile, requestDto, activityId);
+                                  DiarySaveRequestDto requestDto) {
+        Long diaryId = diaryService.save(request.getHeader("Authorization"), audioFile, requestDto);
         if (diaryId == 0) {
             return ResponseUtil.FAILURE("일기 저장에 실패하였습니다.", 0L);
         }
