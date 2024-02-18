@@ -48,7 +48,7 @@ public class AnalysisService {
         }
 
         // 머신러닝 서버에 연결
-        ManagedChannel channel = ManagedChannelBuilder.forAddress("34.64.90.112", 65534)
+        ManagedChannel channel = ManagedChannelBuilder.forAddress("34.64.90.112", 12345)
                 .usePlaintext()
                 .build();
 
