@@ -1,33 +1,23 @@
 package com.example.solutionchallenge.app.analysis.controller;
 
 import com.example.solutionchallenge.app.analysis.service.AnalysisService;
-import io.jsonwebtoken.io.IOException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-import your_package.Message;
-import your_package.MyMLModelGrpc;
-import your_package.Message.PredictRequest;
-import your_package.Message.PredictReply;
-import com.google.protobuf.ByteString;
-import io.grpc.ManagedChannel;
-import io.grpc.ManagedChannelBuilder;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.HashMap;
 import java.util.Map;
 
 @Tag(name = "감정 분석", description = "감정 분석 API")
@@ -49,7 +39,6 @@ public class AnalysisController {
         return ResponseEntity.ok(analysisService.predict(audioFile, diaryId));
     }
 }
-
 
 
 

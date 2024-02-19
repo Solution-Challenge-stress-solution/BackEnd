@@ -16,7 +16,6 @@ import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -34,7 +33,6 @@ public class AnalysisService {
     private final DiaryRepository diaryRepository;
     private final StressLevelRepository stressLevelRepository;
 
-
     public Map<String, String> predict(MultipartFile audioFile, Long diaryId) {
 
         byte[] audioBytes = null;
@@ -48,8 +46,8 @@ public class AnalysisService {
         }
 
         // 머신러닝 서버에 연결
-        ManagedChannel channel = ManagedChannelBuilder.forTarget("dns:///ml-y5v4w7qczq-du.a.run.app:443")
-                .useTransportSecurity()
+        ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 12345)
+                .usePlaintext()
                 .build();
 
         // 머신러닝 서버에 gRPC 요청
@@ -74,7 +72,7 @@ public class AnalysisService {
         Map<String, String> resultMap = new HashMap<>();
         if (response != null) {
             for (Message.Emotion emotion : response.getEmotionsList()) {
-                resultMap.put(emotion.getLabel(), emotion.getEmotionIndex());  // getProbabilityPercentage() 대신 getEmotionIndex() 사용
+                resultMap.put(emotion.getLabel(), emotion.getEmotionIndex());
             }
             resultMap.put("max_emotion", response.getMaxEmotion().getLabel());
             resultMap.put("stress_index", response.getStressIndex());
@@ -82,53 +80,58 @@ public class AnalysisService {
 
         Optional<Diary> diary = diaryRepository.findById(diaryId);
 
-        double angry = 0;
-        double sadness = 0;
-        double disgusting = 0;
-        double fear = 0;
-        double happiness = 0;
-        double stress_point = 0;
-        String max_emotion = "";
+        if (diary.isPresent()) {
+            double angry = 0;
+            double sadness = 0;
+            double disgusting = 0;
+            double fear = 0;
+            double happiness = 0;
+            double stress_point = 0;
+            String max_emotion = "";
 
-        for (String emotion : resultMap.keySet()) {
-            switch (emotion) {
-                case "h":
-                    happiness = Double.parseDouble(resultMap.get(emotion));
-                    break;
-                case "a":
-                    angry = Double.parseDouble(resultMap.get(emotion));
-                    break;
-                case "s":
-                    sadness = Double.parseDouble(resultMap.get(emotion));
-                    break;
-                case "d":
-                    disgusting = Double.parseDouble(resultMap.get(emotion));
-                    break;
-                case "f":
-                    fear = Double.parseDouble(resultMap.get(emotion));
-                    break;
-                case "stress_index":
-                    stress_point = Double.parseDouble(resultMap.get(emotion));
-                    break;
-                case "max_emotion":
-                    max_emotion = resultMap.get(emotion);
-                    break;
+            for (String emotion : resultMap.keySet()) {
+                switch (emotion) {
+                    case "h":
+                        happiness = Double.parseDouble(resultMap.get(emotion));
+                        break;
+                    case "a":
+                        angry = Double.parseDouble(resultMap.get(emotion));
+                        break;
+                    case "s":
+                        sadness = Double.parseDouble(resultMap.get(emotion));
+                        break;
+                    case "d":
+                        disgusting = Double.parseDouble(resultMap.get(emotion));
+                        break;
+                    case "f":
+                        fear = Double.parseDouble(resultMap.get(emotion));
+                        break;
+                    case "stress_index":
+                        stress_point = Double.parseDouble(resultMap.get(emotion));
+                        break;
+                    case "max_emotion":
+                        max_emotion = resultMap.get(emotion);
+                        break;
+                }
             }
+
+            StressLevel stressLevel = StressLevel.builder()
+                    .angry(angry)
+                    .sadness(sadness)
+                    .disgusting(disgusting)
+                    .fear(fear)
+                    .happiness(happiness)
+                    .stress_point(stress_point)
+                    .max_emotion(max_emotion)
+                    .diary(diary.get())
+                    .build();
+
+            stressLevelRepository.save(stressLevel);
+        } else {
+            logger.error("Diary not found with id: " + diaryId);
+            throw new RuntimeException("Diary not found");
         }
 
-        StressLevel stressLevel = StressLevel.builder()
-                .angry(angry)
-                .sadness(sadness)
-                .disgusting(disgusting)
-                .fear(fear)
-                .happiness(happiness)
-                .stress_point(stress_point)
-                .max_emotion(max_emotion)
-                .diary(diary.get())
-                .build();
-
-        stressLevelRepository.save(stressLevel);
         return resultMap;
     }
-
 }
