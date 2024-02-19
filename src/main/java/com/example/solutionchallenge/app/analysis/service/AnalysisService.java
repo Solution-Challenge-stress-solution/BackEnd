@@ -45,13 +45,16 @@ public class AnalysisService {
             throw new RuntimeException(e);
         }
 
-        // 머신러닝 서버에 연결
-        ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 12345)
+        // 머신러닝 서버에 연결             ml-y5v4w7qczq-du.a.run.app/216.239.36.53
+        ManagedChannel channel = ManagedChannelBuilder.forAddress("ml-y5v4w7qczq-du.a.run.app", 8080)
                 .usePlaintext()
                 .build();
 
+        System.out.println("----------------------");
+        System.out.println("서버 연결 완료");
         // 머신러닝 서버에 gRPC 요청
         MyMLModelGrpc.MyMLModelBlockingStub stub = MyMLModelGrpc.newBlockingStub(channel);
+        System.out.println(stub.getChannel());
         PredictRequest request = PredictRequest.newBuilder()
                 .setAudio(ByteString.copyFrom(audioBytes))
                 .build();
