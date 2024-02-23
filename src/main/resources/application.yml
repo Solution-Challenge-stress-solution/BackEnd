@@ -72,12 +72,19 @@ spring:
 #    host:localhost
 #    port:6379
 
+#grpc:
+#  server:
+#    port: 8080
+#  client:
+#    test:
+#      address: static://34.64.90.112:8080
+#      enableKeepAlive: true
+#      keepAliveWithoutCalls: true
+#      negotiationType: plaintext
 grpc:
-  server:
-    port: 8080
   client:
-    test:
+    GLOBAL:
       address: static://34.64.90.112:8080
-      enableKeepAlive: true
-      keepAliveWithoutCalls: true
-      negotiationType: plaintext
+      enable-keep-alive: true
+      keep-alive-without-calls: true
+      negotiation-type: TLS
