@@ -81,10 +81,10 @@ spring:
 #      enableKeepAlive: true
 #      keepAliveWithoutCalls: true
 #      negotiationType: plaintext
-grpc:
-  client:
-    GLOBAL:
-      address: static://ml-y5v4w7qczq-du.a.run.app
-      enable-keep-alive: true
-      keep-alive-without-calls: true
-      negotiation-type: TLS
+#grpc:
+#  client:
+#    GLOBAL:
+#      address: static://ml-y5v4w7qczq-du.a.run.app
+#      enable-keep-alive: true
+#      keep-alive-without-calls: true
+#      negotiation-type: TLS
