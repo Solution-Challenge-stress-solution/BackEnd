@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 
 import org.springframework.web.bind.annotation.PostMapping;
@@ -34,9 +35,16 @@ public class AnalysisController {
 
     @Operation(summary = "감정 분석", description = "오디오파일 확장자는 .flac")
     @PostMapping(value = "/prediction/diaries/{diaryId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<Map<String, String>> predict(@PathVariable("diaryId") Long diaryId, @RequestParam("audioFile") MultipartFile audioFile) {
+    public ResponseEntity<Map<String, String>> predict(@PathVariable("diaryId") Long diaryId, @RequestPart("audioFile") MultipartFile audioFile) {
         logger.info("Received request to analyze emotion");
         return ResponseEntity.ok(analysisService.predict(audioFile, diaryId));
+    }
+
+    @Operation(summary = "감정 분석", description = "오디오파일 확장자는 .flac")
+    @PostMapping(value = "/prediction", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<Map<String, String>> predict(@RequestPart("audioFile") MultipartFile audioFile) {
+        logger.info("Received request to analyze emotion");
+        return ResponseEntity.ok(analysisService.predict2(audioFile));
     }
 }
 
