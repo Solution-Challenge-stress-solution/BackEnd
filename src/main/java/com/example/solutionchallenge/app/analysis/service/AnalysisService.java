@@ -46,8 +46,9 @@ public class AnalysisService {
         }
 
         // 머신러닝 서버에 연결             ml-y5v4w7qczq-du.a.run.app/216.239.36.53
-        ManagedChannel channel = ManagedChannelBuilder.forAddress("ml-y5v4w7qczq-du.a.run.app", 8080)
-                .usePlaintext()
+        ManagedChannel channel = ManagedChannelBuilder
+                .forTarget("ml-y5v4w7qczq-du.a.run.app")
+                .useTransportSecurity()
                 .build();
 
         System.out.println("----------------------");
@@ -137,4 +138,100 @@ public class AnalysisService {
 
         return resultMap;
     }
+
+//    public Map<String, String> predict2(MultipartFile audioFile) {
+//
+//        byte[] audioBytes = null;
+//        try {
+//            audioBytes = audioFile.getBytes();
+//        } catch (IOException e) {
+//            logger.error("Error occurred while reading audio file: ", e);
+//            throw new RuntimeException(String.valueOf(HttpStatus.INTERNAL_SERVER_ERROR));
+//        } catch (java.io.IOException e) {
+//            throw new RuntimeException(e);
+//        }
+//
+//        // 머신러닝 서버에 연결             ml-y5v4w7qczq-du.a.run.app/216.239.36.53
+//        //https://ml3-y5v4w7qczq-du.a.run.app
+//        ManagedChannel channel = ManagedChannelBuilder
+//                .forTarget("ml-y5v4w7qczq-du.a.run.app")
+////                .forAddress("ml-y5v4w7qczq-du.a.run.app", 9090)
+////                .usePlaintext()
+//                .useTransportSecurity()
+//                .build();
+//
+//        System.out.println("----------------------");
+//        System.out.println("서버 연결 완료");
+//        // 머신러닝 서버에 gRPC 요청
+//        MyMLModelGrpc.MyMLModelBlockingStub stub = MyMLModelGrpc.newBlockingStub(channel);
+//        System.out.println(stub.getChannel());
+//        PredictRequest request = PredictRequest.newBuilder()
+//                .setAudio(ByteString.copyFrom(audioBytes))
+//                .build();
+//
+//        PredictReply response = null;
+//        try {
+//            logger.info("Sending request to machine learning server");
+//            response = stub.predict(request);
+//            logger.info("Received response from machine learning server");
+//        } catch (Exception e) {
+//            logger.error("Error occurred: ", e);
+//            throw new RuntimeException(String.valueOf(HttpStatus.INTERNAL_SERVER_ERROR));
+//        } finally {
+//            channel.shutdown();
+//        }
+//
+//        // gRPC 응답을 Map으로 변환
+//        Map<String, String> resultMap = new HashMap<>();
+//        if (response != null) {
+//            for (Message.Emotion emotion : response.getEmotionsList()) {
+//                resultMap.put(emotion.getLabel(), emotion.getEmotionIndex());
+//            }
+//            resultMap.put("max_emotion", response.getMaxEmotion().getLabel());
+//            resultMap.put("stress_index", response.getStressIndex());
+//        }
+//
+//
+//            double angry = 0;
+//            double sadness = 0;
+//            double disgusting = 0;
+//            double fear = 0;
+//            double happiness = 0;
+//            double stress_point = 0;
+//            String max_emotion = "";
+//
+//            for (String emotion : resultMap.keySet()) {
+//                switch (emotion) {
+//                    case "h":
+//                        happiness = Double.parseDouble(resultMap.get(emotion));
+//                        break;
+//                    case "a":
+//                        angry = Double.parseDouble(resultMap.get(emotion));
+//                        break;
+//                    case "s":
+//                        sadness = Double.parseDouble(resultMap.get(emotion));
+//                        break;
+//                    case "d":
+//                        disgusting = Double.parseDouble(resultMap.get(emotion));
+//                        break;
+//                    case "f":
+//                        fear = Double.parseDouble(resultMap.get(emotion));
+//                        break;
+//                    case "stress_index":
+//                        stress_point = Double.parseDouble(resultMap.get(emotion));
+//                        break;
+//                    case "max_emotion":
+//                        max_emotion = resultMap.get(emotion);
+//                        break;
+//                }
+//            }
+//
+//        System.out.println("----------------------");
+//        System.out.println("angry: " + angry);
+//        System.out.println("saddness: " + sadness);
+//        System.out.println("stress_index: " + stress_point);
+//
+//        return resultMap;
+//    }
+
 }

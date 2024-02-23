@@ -6,6 +6,6 @@ services:
       - '8080:8080'
 
   ml_server:
-    build: ./ml_server
+    build: C:\Users\KoKyungNam\Desktop\solutionChallengeMl\ML\myproject
     ports:
-      - '50051:50051'
+      - '9090:8080'
