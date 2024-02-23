@@ -34,8 +34,7 @@ public class AnalysisService {
     private final StressLevelRepository stressLevelRepository;
 
     public Map<String, String> predict(MultipartFile audioFile, Long diaryId) {
-
-        System.out.println("predict 메서드 연결");
+        logger.info("connect predict method");
         byte[] audioBytes = null;
         try {
             audioBytes = audioFile.getBytes();
@@ -46,15 +45,16 @@ public class AnalysisService {
             throw new RuntimeException(e);
         }
 
-        System.out.println("오디오 파일 바이트 변환");
+        logger.info("audio to byte");
         // 머신러닝 서버에 연결             ml-y5v4w7qczq-du.a.run.app/216.239.36.53
         ManagedChannel channel = ManagedChannelBuilder
-                .forTarget("ml-y5v4w7qczq-du.a.run.app")
+//                .forTarget("ml-y5v4w7qczq-du.a.run.app")
+                .forTarget("ml3-y5v4w7qczq-du.a.run.app")
                 .useTransportSecurity()
                 .build();
 
-        System.out.println("----------------------");
-        System.out.println("서버 연결 완료");
+        logger.info("------------------------------");
+        logger.info("request to ml server");
         // 머신러닝 서버에 gRPC 요청
         MyMLModelGrpc.MyMLModelBlockingStub stub = MyMLModelGrpc.newBlockingStub(channel);
         System.out.println(stub.getChannel());
