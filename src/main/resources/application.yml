@@ -84,7 +84,7 @@ spring:
 grpc:
   client:
     GLOBAL:
-      address: static://34.64.90.112:8080
+      address: static://ml-y5v4w7qczq-du.a.run.app
       enable-keep-alive: true
       keep-alive-without-calls: true
       negotiation-type: TLS
