@@ -73,11 +73,11 @@ spring:
 #    port:6379
 
 grpc:
-#  server:
-#    port: 8080
-#  client:
-#    test:
-#      address: static://34.64.90.112:8080
-#      enableKeepAlive: true
-#      keepAliveWithoutCalls: true
-#      negotiationType: plaintext
+  server:
+    port: 8080
+  client:
+    test:
+      address: static://34.64.90.112:8080
+      enableKeepAlive: true
+      keepAliveWithoutCalls: true
+      negotiationType: plaintext
