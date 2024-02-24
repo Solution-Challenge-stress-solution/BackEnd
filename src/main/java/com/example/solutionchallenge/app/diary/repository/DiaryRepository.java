@@ -9,4 +9,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface DiaryRepository extends JpaRepository<Diary, Long> {
 
     Optional<Diary> findDiaryByUsersAndCreatedDateBetween(Users users, LocalDateTime startDateTime, LocalDateTime endDateTime);
+
 }

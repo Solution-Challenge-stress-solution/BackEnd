@@ -8,20 +8,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
-@Transactional
+@Transactional(readOnly = true)
 @Service
 public class RecommendedActivityService {
 
     private final RecommendedActivityRepository recommendedActivityRepository;
-
-//    public ActivityResponseDto findRandom() {
-//        double dValue = Math.random();
-//        long randomId = (long) ((dValue * 20) + 1);
-//        RecommendedActivity recommendedActivity = recommendedActivityRepository.findById(randomId).orElseThrow(
-//                () -> new IllegalArgumentException("해당 추천 활동이 없습니다. id=" + randomId));
-//        ActivityResponseDto activityResponseDto = ActivityResponseDto.builder().recommendedActivity(recommendedActivity).build();
-//        return activityResponseDto;
-//    }
 
     public ActivityResponseDto findById(Long activityId) {
         RecommendedActivity recommendedActivity = recommendedActivityRepository.findById(activityId).orElseThrow(

@@ -11,9 +11,11 @@ import java.util.concurrent.atomic.AtomicInteger;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class UserService {
 
     private final UsersRepository usersRepository;
@@ -21,6 +23,7 @@ public class UserService {
 
     private AtomicInteger dbCount = new AtomicInteger(0);
 
+    @Transactional(readOnly = true)
     public UserResponseDto findById(String accessToken) {
         Users user = getUserByToken(accessToken);
         return UserResponseDto.builder()
@@ -56,13 +59,9 @@ public class UserService {
         return dbCount.get();
     }
 
-    public void deleteUser(String username) {
-        Optional<Users> user = usersRepository.findById(username);
-        if (user.isPresent()) {
-            usersRepository.delete(user.get());
-        } else {
-            throw new RuntimeException("해당 이름을 가진 사용자가 없습니다.");
-        }
+    public void deleteUser(String accessToken) {
+        Users user = getUserByToken(accessToken);
+        usersRepository.delete(user);
     }
 
 }

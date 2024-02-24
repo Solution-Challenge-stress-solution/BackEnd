@@ -1,11 +1,10 @@
 package com.example.solutionchallenge.app.diary.controller;
 
-import com.example.solutionchallenge.app.diary.dto.response.DiaryResponseDto;
 import com.example.solutionchallenge.app.common.dto.response.ResponseDto;
 import com.example.solutionchallenge.app.common.dto.response.ResponseUtil;
 import com.example.solutionchallenge.app.diary.dto.request.DiarySaveRequestDto;
+import com.example.solutionchallenge.app.diary.dto.response.DiaryResponseDto;
 import com.example.solutionchallenge.app.diary.service.DiaryService;
-
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -20,11 +19,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.util.List;
 
 @Tag(name = "일기", description = "일기 API")
 @ApiResponses({
