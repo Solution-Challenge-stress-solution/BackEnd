@@ -55,4 +55,14 @@ public class UserService {
     public int getDbCount() {
         return dbCount.get();
     }
+
+    public void deleteUser(String username) {
+        Optional<Users> user = usersRepository.findById(username);
+        if (user.isPresent()) {
+            usersRepository.delete(user.get());
+        } else {
+            throw new RuntimeException("해당 이름을 가진 사용자가 없습니다.");
+        }
+    }
+
 }
