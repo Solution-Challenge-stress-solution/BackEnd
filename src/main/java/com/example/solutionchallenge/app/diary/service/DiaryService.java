@@ -1,16 +1,14 @@
 package com.example.solutionchallenge.app.diary.service;
 
-import com.example.solutionchallenge.app.auth.domain.jwt.JwtTokenProvider;
-import com.example.solutionchallenge.app.diary.dto.response.DiaryResponseDto;
-import com.example.solutionchallenge.app.diary.domain.Diary;
-import com.example.solutionchallenge.app.diary.dto.request.DiarySaveRequestDto;
-import com.example.solutionchallenge.app.diary.repository.DiaryRepository;
-
-import com.example.solutionchallenge.app.recommendedActivity.dto.ActivityResponseDto;
-import com.example.solutionchallenge.app.recommendedActivity.repository.RecommendedActivityRepository;
-import com.example.solutionchallenge.app.recommendedActivity.domain.RecommendedActivity;
 import com.example.solutionchallenge.app.analysis.domain.StressLevel;
 import com.example.solutionchallenge.app.analysis.repository.StressLevelRepository;
+import com.example.solutionchallenge.app.auth.domain.jwt.JwtTokenProvider;
+import com.example.solutionchallenge.app.diary.domain.Diary;
+import com.example.solutionchallenge.app.diary.dto.request.DiarySaveRequestDto;
+import com.example.solutionchallenge.app.diary.dto.response.DiaryResponseDto;
+import com.example.solutionchallenge.app.diary.repository.DiaryRepository;
+import com.example.solutionchallenge.app.recommendedActivity.domain.RecommendedActivity;
+import com.example.solutionchallenge.app.recommendedActivity.repository.RecommendedActivityRepository;
 import com.example.solutionchallenge.app.user.domain.Users;
 import com.example.solutionchallenge.app.user.repository.UsersRepository;
 import com.google.auth.oauth2.GoogleCredentials;
@@ -23,8 +21,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 import java.util.UUID;
-
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -54,6 +50,15 @@ public class DiaryService {
 
     public Long save(String accessToken, MultipartFile audioFile, DiarySaveRequestDto requestDto) {
         Users user = getUserByToken(accessToken);
+        LocalDateTime startDateTime = LocalDate.now().atStartOfDay();
+        LocalDateTime endDateTime = LocalDate.now().atTime(23, 59, 59);
+
+        Optional<Diary> diary = diaryRepository.findDiaryByUsersAndCreatedDateBetween(user,
+                startDateTime, endDateTime);
+        if (!diary.isEmpty()) {
+            diaryRepository.delete(diary.get());
+        }
+
         try {
             ClassPathResource resource = new ClassPathResource("strecording-upload.json");
             GoogleCredentials credentials = GoogleCredentials.fromStream(resource.getInputStream());
@@ -80,13 +85,14 @@ public class DiaryService {
         return 0L;
     }
 
+    @Transactional(readOnly = true)
     public DiaryResponseDto findByCreatedDate(String accessToken, String diaryDate) {
         Users user = getUserByToken(accessToken);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate date = LocalDate.parse(diaryDate, formatter);
 
         LocalDateTime startDateTime = date.atStartOfDay();
-        LocalDateTime endDateTime = startDateTime.plusDays(1);
+        LocalDateTime endDateTime = date.atTime(23, 59, 59);
 
         Optional<Diary> diary = diaryRepository.findDiaryByUsersAndCreatedDateBetween(user, startDateTime, endDateTime);
         if (diary.isEmpty()) {
